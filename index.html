@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشروع / ديروط - اسيوط بطول 65 كم | لوحة المتابعة والتحليل المالي</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1rem;
+    }
+    .glass-card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-3px);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ==================== AUTH / LOGIN SCREEN ==================== -->
+  <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+    <div class="glass-card max-w-md w-full p-8 shadow-2xl border border-slate-700/60 relative overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="text-center mb-6">
+        <img id="loginLogo" src="" alt="شعار الشركة" class="h-20 mx-auto mb-3 object-contain filter drop-shadow">
+        <h2 class="text-xl font-bold text-white tracking-wide">مشروع / ديروط - اسيوط بطول 65 كم</h2>
+        <p class="text-xs text-slate-400 mt-1">بوابة متابعة المستخلصات والتحليل المالي</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">البريد الإلكتروني المصرح له</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+              <i class="fa-regular fa-envelope"></i>
+            </span>
+            <input type="email" id="loginEmail" dir="ltr" placeholder="user@company.com" 
+              class="w-full bg-slate-800/90 border border-slate-600 rounded-lg pr-10 pl-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+          </div>
+        </div>
+
+        <button id="loginBtn" onclick="handleLogin()" 
+          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-2.5 px-4 rounded-lg shadow-lg hover:shadow-blue-500/25 transition duration-200 flex items-center justify-center gap-2 text-sm">
+          <i class="fa-solid fa-lock-open"></i>
+          <span>تسجيل الدخول إلى المشروع</span>
+        </button>
+
+        <div id="loginMsg" class="text-center text-xs py-1 hidden rounded"></div>
+
+        <div class="pt-4 border-t border-slate-700/50 text-center">
+          <p class="text-[11px] text-slate-400">
+            حساب الأدمن المفوض: <span class="text-blue-400 font-mono" dir="ltr">MOHAMEDABORIZK@GMAIL.COM</span>
+          </p>
+          <p class="text-[10px] text-slate-500 mt-1">
+            لطلب صلاحية الدخول يرجى التواصل مع مدير النظام
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN DASHBOARD ==================== -->
+  <div id="mainDashboard" class="flex-1 flex flex-col hidden">
+    
+    <!-- Top Navbar -->
+    <header class="glass-card border-x-0 border-t-0 rounded-none sticky top-0 z-40 px-4 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <img id="navLogo" src="" alt="لوجو" class="h-10 w-auto object-contain bg-white/5 rounded p-1">
+        <div>
+          <h1 class="text-base lg:text-lg font-extrabold text-white flex items-center gap-2">
+            <span>مشروع / ديروط - اسيوط بطول 65 كم</span>
+            <span class="text-[11px] font-normal bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+              محدث ولحظي
+            </span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block">
+            طريق الصعيد الصحراوى الغربي | عقد (2023/2022/426)
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Active User Badge -->
+        <div class="hidden md:flex items-center gap-2 bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1 text-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="userBadge" class="font-mono text-slate-300"></span>
+          <span id="adminTag" class="hidden text-[10px] bg-blue-600/30 text-blue-400 border border-blue-500/40 px-1.5 py-0.5 rounded">مدير النظام</span>
+        </div>
+
+        <!-- Admin Panel Toggle (Shown for Admin Only) -->
+        <button id="adminPanelBtn" onclick="toggleAdminModal()" 
+          class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-users-gear text-blue-400"></i>
+          <span class="hidden sm:inline">إدارة الصلاحيات</span>
+        </button>
+
+        <!-- Refresh Data from Local/Google Drive Button -->
+        <button onclick="refreshData()" title="تحديث من الإكسيل" 
+          class="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 shadow transition">
+          <i class="fa-solid fa-rotate text-xs"></i>
+          <span class="hidden sm:inline">مزامنة</span>
+        </button>
+
+        <!-- Logout -->
+        <button onclick="handleLogout()" title="تسجيل الخروج" 
+          class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg px-2.5 py-1.5 text-xs transition">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Sub-Navbar / Tabs -->
+    <nav class="bg-slate-900/90 border-b border-slate-800 px-4 lg:px-8 py-2 overflow-x-auto flex gap-2 text-xs font-bold scrollbar-none">
+      <button onclick="switchTab('tabOverview')" class="tab-btn active px-4 py-2 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-2 whitespace-nowrap bg-blue-600 text-white" data-target="tabOverview">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>الموقف العام والمؤشرات</span>
+      </button>
+      <button onclick="switchTab('tabPayApps')" class="tab-btn px-4 py-2 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-2 whitespace-nowrap" data-target="tabPayApps">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <span>مستخلصات المالك (جارى 01-15)</span>
+      </button>
+      <button onclick="switchTab('tabToll')" class="tab-btn px-4 py-2 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-2 whitespace-nowrap" data-target="tabToll">
+        <i class="fa-solid fa-truck-moving"></i>
+        <span>كارتات الأتربة والبنود</span>
+      </button>
+      <button onclick="switchTab('tabPV')" class="tab-btn px-4 py-2 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-2 whitespace-nowrap" data-target="tabPV">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>فروق الأسعار والتعويضات</span>
+      </button>
+      <button onclick="switchTab('tabHandovers')" class="tab-btn px-4 py-2 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-2 whitespace-nowrap" data-target="tabHandovers">
+        <i class="fa-solid fa-road"></i>
+        <span>التسليمات الجزئية (01-04)</span>
+      </button>
+      <button onclick="switchTab('tabItems')" class="tab-btn px-4 py-2 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-2 whitespace-nowrap" data-target="tabItems">
+        <i class="fa-solid fa-list-check"></i>
+        <span>جدول حصر البنود (66 بند)</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Body -->
+    <main class="flex-1 p-4 lg:p-8 space-y-6 max-w-7xl w-full mx-auto">
+
+      <!-- ==================== TAB 1: OVERVIEW ==================== -->
+      <section id="tabOverview" class="tab-content space-y-6">
+        
+        <!-- Summary Alert / Sync Status -->
+        <div class="glass-card p-4 border-l-4 border-emerald-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-check-double text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">بيانات المشروع مطابقة ومحدثة بالكامل بنسبة 100%</h3>
+              <p class="text-xs text-slate-400">
+                دفتر الحصر المعتمد يتطابق تماماً مع مستخلصات المالك الجارية (1-15) والمستخلص الداخلي لسبتمبر 2026.
+              </p>
+            </div>
+          </div>
+          <div class="text-xs text-slate-400 text-left shrink-0">
+            <span>آخر تحديث: </span>
+            <span id="lastUpdated" class="text-slate-200 font-mono"></span>
+          </div>
+        </div>
+
+        <!-- 4 Key Financial KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Card 1: Approved Contract Value -->
+          <div class="glass-card glass-card-hover p-5 border-t-4 border-blue-500">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span class="text-xs font-semibold">إجمالي المعتمد (دفتر الحصر)</span>
+              <i class="fa-solid fa-file-signature text-blue-400"></i>
+            </div>
+            <div id="kpiApprovedContract" class="text-xl lg:text-2xl font-black text-white font-mono">0.00</div>
+            <div class="text-[11px] text-slate-400 mt-2 flex items-center justify-between">
+              <span>طبقاً لأسعار المفاوضة (يوليو 2022)</span>
+              <span class="text-blue-400 font-bold">66 بند</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Billed Contract Value -->
+          <div class="glass-card glass-card-hover p-5 border-t-4 border-emerald-500">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span class="text-xs font-semibold">إجمالي المنصرف الجاري (1-15)</span>
+              <i class="fa-solid fa-money-bill-transfer text-emerald-400"></i>
+            </div>
+            <div id="kpiBilledContract" class="text-xl lg:text-2xl font-black text-white font-mono">0.00</div>
+            <div class="text-[11px] text-slate-400 mt-2 flex items-center justify-between">
+              <span>نسبة المنصرف من المعتمد:</span>
+              <span id="kpiBilledRatio" class="text-emerald-400 font-bold font-mono">0%</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Remaining Value to be Billed -->
+          <div class="glass-card glass-card-hover p-5 border-t-4 border-amber-500">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span class="text-xs font-semibold">المتبقي للصرف بالمستخلصات القادمة</span>
+              <i class="fa-solid fa-hourglass-half text-amber-400"></i>
+            </div>
+            <div id="kpiRemainingContract" class="text-xl lg:text-2xl font-black text-amber-400 font-mono">0.00</div>
+            <div class="text-[11px] text-slate-400 mt-2 flex items-center justify-between">
+              <span>منفذ ومعتمد وغير مدرج بجاري 15</span>
+              <span id="kpiRemainingRatio" class="text-amber-400 font-bold font-mono">0%</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Price Variation & Compensation -->
+          <div class="glass-card glass-card-hover p-5 border-t-4 border-purple-500">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span class="text-xs font-semibold">معتمد فروق أسعار / تعويضات</span>
+              <i class="fa-solid fa-scale-balanced text-purple-400"></i>
+            </div>
+            <div id="kpiPVComp" class="text-xl lg:text-2xl font-black text-purple-300 font-mono">0.00</div>
+            <div class="text-[11px] text-slate-400 mt-2 flex items-center justify-between">
+              <span title="تُصرف القيمة الأكبر بينهما لكل مستخلص">تطبيق نظام المفاضلة الأعلى</span>
+              <span class="text-purple-400 font-bold">14 مستخلص</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Main Chart: Pay Apps Progression -->
+          <div class="glass-card p-5 lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-chart-line text-blue-400"></i>
+                <span>تطور قيمة الأعمال المنصرفة عبر المستخلصات (جاري 01 - 15)</span>
+              </h3>
+              <span class="text-xs text-slate-400 font-mono">مليون ج.م</span>
+            </div>
+            <div class="h-72 w-full">
+              <canvas id="chartPayApps"></canvas>
+            </div>
+          </div>
+
+          <!-- Doughnut Chart: Distribution of Works -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-chart-pie text-emerald-400"></i>
+                <span>توزيع الموقف المالي للمشروع</span>
+              </h3>
+            </div>
+            <div class="h-56 w-full flex items-center justify-center">
+              <canvas id="chartDistribution"></canvas>
+            </div>
+            <div class="space-y-2 mt-4 text-xs">
+              <div class="flex justify-between items-center text-slate-300">
+                <span class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded bg-emerald-500"></span> منصرف جاري 01-15
+                </span>
+                <span id="distBilledVal" class="font-mono font-bold"></span>
+              </div>
+              <div class="flex justify-between items-center text-slate-300">
+                <span class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded bg-amber-500"></span> متبقي للصرف
+                </span>
+                <span id="distRemainingVal" class="font-mono font-bold"></span>
+              </div>
+              <div class="flex justify-between items-center text-slate-300">
+                <span class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded bg-purple-500"></span> فروق أسعار معتمدة
+                </span>
+                <span id="distPVVal" class="font-mono font-bold"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Summary Table of Partial Handovers & Tolls -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Tolls Snapshot -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-truck-ramp-box text-amber-400"></i>
+                <span>موقف بنود الكارتات الخمسة (مطابق بنسبة 100%)</span>
+              </h3>
+              <a href="javascript:void(0)" onclick="switchTab('tabToll')" class="text-xs text-blue-400 hover:underline">عرض التفاصيل</a>
+            </div>
+            <div class="space-y-2 text-xs" id="quickTollList"></div>
+          </div>
+
+          <!-- Partial Handovers Snapshot -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-road-barrier text-blue-400"></i>
+                <span>موقف التسليمات الجزئية للمالك (01 حتى 04)</span>
+              </h3>
+              <a href="javascript:void(0)" onclick="switchTab('tabHandovers')" class="text-xs text-blue-400 hover:underline">عرض المحاضر</a>
+            </div>
+            <div class="space-y-2 text-xs" id="quickHandoversList"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==================== TAB 2: PAY APPS (مستخلصات المالك) ==================== -->
+      <section id="tabPayApps" class="tab-content hidden space-y-6">
+        <div class="glass-card p-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice-dollar text-emerald-400"></i>
+                <span>بيان المستخلصات الجارية المعتمدة مع المالك (1 إلى 15)</span>
+              </h3>
+              <p class="text-xs text-slate-400 mt-1">
+                بيان تفصيلي لقيمة كل مستخلص، استقطاعات التأمين النهائي والدمغات، وصافي الصرف الفعلي
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text" id="searchPayApps" oninput="filterPayAppsTable()" placeholder="بحث في المستخلصات..." 
+                class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-slate-800/80 text-slate-300 border-b border-slate-700">
+                <tr>
+                  <th class="p-3">المستخلص</th>
+                  <th class="p-3">نوع المستخلص</th>
+                  <th class="p-3">تاريخ الاعتماد</th>
+                  <th class="p-3">تاريخ الأعمال</th>
+                  <th class="p-3 text-left">أعمال الفترة (ج.م)</th>
+                  <th class="p-3 text-left">الاستقطاع / الحجز (ج.م)</th>
+                  <th class="p-3 text-left">الصافي المنصرف (ج.م)</th>
+                  <th class="p-3 text-left">التراكمي حتى تاريخه (ج.م)</th>
+                  <th class="p-3 text-center">الحالة</th>
+                </tr>
+              </thead>
+              <tbody id="payAppsTableBody" class="divide-y divide-slate-800/50"></tbody>
+              <tfoot id="payAppsTableFoot" class="bg-slate-800/90 font-bold text-white border-t border-slate-700"></tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: TOLL ITEMS (كارتات الأتربة) ==================== -->
+      <section id="tabToll" class="tab-content hidden space-y-6">
+        <div class="glass-card p-5">
+          <div class="mb-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-truck-moving text-amber-400"></i>
+              <span>موقف بنود كارتات وموازين المشروع (معتمدة ومنصرفة)</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">
+              بنود الكارتات لا تخضع لفروق الأسعار أو التعويضات، وتُصرف بالمستخلص الجاري مباشرة بإجمالي <span class="text-amber-400 font-bold font-mono">39,907,279.00</span> ج.م
+            </p>
+          </div>
+
+          <!-- Cards Grid for the 5 Toll Items -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="tollCardsGrid"></div>
+
+          <!-- Detailed Audit Table for CR-FL (كارتة الأتربة) -->
+          <div class="border border-slate-800 rounded-xl overflow-hidden mt-6">
+            <div class="bg-slate-800/60 p-3 border-b border-slate-700 flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span>حركة الصرف التفصيلية لبند (CR-FL) كارتة وطنية لأعمال الردم (2,826,200 م3)</span>
+              </span>
+              <span class="text-[11px] bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2 py-0.5 rounded font-mono">
+                الفئة: 6.50 ج.م/م3
+              </span>
+            </div>
+            <table class="w-full text-right text-xs">
+              <thead class="bg-slate-800/40 text-slate-300 border-b border-slate-800">
+                <tr>
+                  <th class="p-2.5">المستخلص الجاري</th>
+                  <th class="p-2.5 text-left">كمية الفترة (م3)</th>
+                  <th class="p-2.5 text-left">الكمية التراكمية (م3)</th>
+                  <th class="p-2.5 text-left">قيمة الفترة (ج.م)</th>
+                  <th class="p-2.5 text-left">القيمة التراكمية (ج.م)</th>
+                  <th class="p-2.5 text-center">الموقف بشيت المتابعة والمستخلص الداخلي</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 font-mono">
+                <tr>
+                  <td class="p-2.5 font-sans font-bold">المستخلص الجاري الثاني (Pay App-02)</td>
+                  <td class="p-2.5 text-left">2,250,000.00</td>
+                  <td class="p-2.5 text-left">2,250,000.00</td>
+                  <td class="p-2.5 text-left">14,625,000.00</td>
+                  <td class="p-2.5 text-left">14,625,000.00</td>
+                  <td class="p-2.5 text-center font-sans"><span class="text-emerald-400 font-bold">معتمد ومنصرف</span></td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-sans font-bold">المستخلص الجاري الثالث (Pay App-03)</td>
+                  <td class="p-2.5 text-left">375,300.00</td>
+                  <td class="p-2.5 text-left">2,625,300.00</td>
+                  <td class="p-2.5 text-left">2,439,450.00</td>
+                  <td class="p-2.5 text-left">17,064,450.00</td>
+                  <td class="p-2.5 text-center font-sans"><span class="text-emerald-400 font-bold">معتمد ومنصرف</span></td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-sans font-bold">المستخلص الجاري التاسع (Pay App-09)</td>
+                  <td class="p-2.5 text-left">180,900.00</td>
+                  <td class="p-2.5 text-left">2,806,200.00</td>
+                  <td class="p-2.5 text-left">1,175,850.00</td>
+                  <td class="p-2.5 text-left">18,240,300.00</td>
+                  <td class="p-2.5 text-center font-sans"><span class="text-emerald-400 font-bold">معتمد ومنصرف</span></td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-sans font-bold">المستخلص الجاري العاشر (Pay App-10)</td>
+                  <td class="p-2.5 text-left">20,000.00</td>
+                  <td class="p-2.5 text-left">2,826,200.00</td>
+                  <td class="p-2.5 text-left">130,000.00</td>
+                  <td class="p-2.5 text-left">18,370,300.00</td>
+                  <td class="p-2.5 text-center font-sans"><span class="text-emerald-400 font-bold">معتمد ومنصرف</span></td>
+                </tr>
+              </tbody>
+              <tfoot class="bg-slate-800/80 font-bold text-white border-t border-slate-700 font-mono">
+                <tr>
+                  <td class="p-2.5 font-sans">الإجمالي حتى جاري 15</td>
+                  <td class="p-2.5 text-left">2,826,200.00</td>
+                  <td class="p-2.5 text-left">2,826,200.00</td>
+                  <td class="p-2.5 text-left">18,370,300.00</td>
+                  <td class="p-2.5 text-left">18,370,300.00</td>
+                  <td class="p-2.5 text-center font-sans text-emerald-400">تطابق تام (0 فارق)</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: PV & COMPENSATION ==================== -->
+      <section id="tabPV" class="tab-content hidden space-y-6">
+        <div class="glass-card p-5">
+          <div class="mb-4">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-scale-balanced text-purple-400"></i>
+              <span>مستخلصات فروق الأسعار والتعويضات وقواعد المحاسبة المعتمدة</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">
+              قاعدة الصرف: يُحسب كل مستخلص على حدة؛ إذا كانت التعويضات أكبر من فروق الأسعار يُعمل بها، وإذا كانت فروق الأسعار أكبر تُعتمد ويُلغى مستخلص التعويضات.
+            </p>
+          </div>
+
+          <!-- Comparison Table of PV vs Comp for all Pay Apps -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-slate-800/80 text-slate-300 border-b border-slate-700">
+                <tr>
+                  <th class="p-3">رقم المستخلص</th>
+                  <th class="p-3 text-left">فروق الأسعار المعتمدة (ج.م)</th>
+                  <th class="p-3 text-left">التعويضات المحسوبة (ج.م)</th>
+                  <th class="p-3 text-center">المستخلص المعتمد للصرف</th>
+                  <th class="p-3 text-left">القيمة المستحقة المعتمدة (ج.م)</th>
+                  <th class="p-3 text-center">الفرق المالي لصالـح الشركة (ج.م)</th>
+                </tr>
+              </thead>
+              <tbody id="pvCompTableBody" class="divide-y divide-slate-800/50 font-mono"></tbody>
+              <tfoot id="pvCompTableFoot" class="bg-slate-800/90 font-bold text-white border-t border-slate-700 font-mono"></tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 5: PARTIAL HANDOVERS ==================== -->
+      <section id="tabHandovers" class="tab-content hidden space-y-6">
+        <div class="glass-card p-5">
+          <div class="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-road text-blue-400"></i>
+                <span>محاضر التسليم الجزئي للمالك من رقم 01 حتى رقم 04</span>
+              </h3>
+              <p class="text-xs text-slate-400 mt-1">
+                تشمل قطاعات الطرق الرئيسية وطرق الخدمة والأعمال الصناعية (أنفاق، برابخ، نيوجيرسي، حمايات ميول)
+              </p>
+            </div>
+            <div class="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-lg">
+              إجمالي التسليمات: <span id="totalHandoversVal" class="font-mono"></span> ج.م
+            </div>
+          </div>
+
+          <!-- Handovers Cards Accordion / List -->
+          <div class="space-y-4" id="handoversList"></div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 6: ITEMS AUDIT TABLE (66 البند) ==================== -->
+      <section id="tabItems" class="tab-content hidden space-y-6">
+        <div class="glass-card p-5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-blue-400"></i>
+                <span>جدول حصر بنود المشروع وتطابق الكميات والقيم المالية (66 بند)</span>
+              </h3>
+              <p class="text-xs text-slate-400 mt-1">
+                مقارنة دقيقة بين كميات وقيم المعتمد (دفتر الحصر) والمنصرف الجاري بمستخلصات المالك (1-15)
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text" id="searchItems" oninput="filterItemsTable()" placeholder="بحث بكود أو وصف البند..." 
+                class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 w-64">
+            </div>
+          </div>
+
+          <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-slate-800 text-slate-300 sticky top-0 border-b border-slate-700 z-10">
+                <tr>
+                  <th class="p-2.5">كود البند</th>
+                  <th class="p-2.5">وصف البند بالمقايسة</th>
+                  <th class="p-2.5 text-center">الوحدة</th>
+                  <th class="p-2.5 text-left">الفئة (ج.م)</th>
+                  <th class="p-2.5 text-left">الكمية المعتمدة</th>
+                  <th class="p-2.5 text-left">القيمة المعتمدة (ج.م)</th>
+                  <th class="p-2.5 text-left">الكمية المنصرفة</th>
+                  <th class="p-2.5 text-left">القيمة المنصرفة (ج.م)</th>
+                  <th class="p-2.5 text-left">المتبقي للصرف (ج.م)</th>
+                  <th class="p-2.5 text-center">حالة الصرف</th>
+                </tr>
+              </thead>
+              <tbody id="itemsTableBody" class="divide-y divide-slate-800/60 font-mono"></tbody>
+              <tfoot id="itemsTableFoot" class="bg-slate-800/90 font-bold text-white sticky bottom-0 border-t border-slate-700 font-mono z-10"></tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== ADMIN MODAL (صلاحيات المستخدمين) ==================== -->
+  <div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="glass-card max-w-lg w-full p-6 shadow-2xl border border-slate-700 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-users-gear text-blue-400"></i>
+          <span>لوحة إدارة صلاحيات المستخدمين (المدير العام)</span>
+        </h3>
+        <button onclick="toggleAdminModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Add New User Form -->
+      <div class="bg-slate-800/70 p-3 rounded-lg border border-slate-700/60 space-y-3">
+        <h4 class="text-xs font-semibold text-slate-300">إضافة بريد إلكتروني مصرح له</h4>
+        <div class="flex gap-2">
+          <input type="email" id="newUserEmail" dir="ltr" placeholder="user@gmail.com" 
+            class="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+          <button onclick="addUserEmail()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded text-xs font-bold transition">
+            إضافة
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Users List -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-semibold text-slate-400">قائمة الحسابات المصرح لها بالدخول:</h4>
+        <div id="usersListContainer" class="max-h-56 overflow-y-auto space-y-1.5 pr-1"></div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-700 flex justify-end">
+        <button onclick="toggleAdminModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-1.5 rounded text-xs">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script>
+    // System State
+    let PROJECT_DATA = null;
+    let currentUser = null;
+    let allowedUsers = [];
+
+    const SUPER_ADMIN = "MOHAMEDABORIZK@GMAIL.COM";
+
+    // Format Helpers
+    function fmt(num, decimals = 2) {
+      if (num === null || num === undefined || isNaN(num)) return "0.00";
+      return Number(num).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+
+    function fmtM(num) {
+      return (Number(num || 0) / 1000000).toFixed(2);
+    }
+
+    // Init App
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadAllowedUsers();
+      await loadProjectData();
+      checkSavedSession();
+    });
+
+    // Load Allowed Users from LocalStorage
+    function loadAllowedUsers() {
+      const stored = localStorage.getItem('allowed_users_list');
+      if (stored) {
+        try {
+          allowedUsers = JSON.parse(stored);
+        } catch (e) {
+          allowedUsers = [SUPER_ADMIN];
+        }
+      } else {
+        allowedUsers = [
+          SUPER_ADMIN,
+          "qs.team@emac.com",
+          "management@emac.com"
+        ];
+        saveAllowedUsers();
+      }
+    }
+
+    function saveAllowedUsers() {
+      localStorage.setItem('allowed_users_list', JSON.stringify(allowedUsers));
+    }
+
+    // Fetch Project Dataset
+    async function loadProjectData() {
+      try {
+        const res = await fetch('project_data.json?v=' + Date.now());
+        if (!res.ok) throw new Error('Data fetch failed');
+        PROJECT_DATA = await res.json();
+        
+        // Setup Logos
+        if (PROJECT_DATA.project_info && PROJECT_DATA.project_info.logo_base64) {
+          const logoSrc = "data:image/png;base64," + PROJECT_DATA.project_info.logo_base64;
+          document.getElementById('loginLogo').src = logoSrc;
+          document.getElementById('navLogo').src = logoSrc;
+        }
+
+        renderDashboard();
+      } catch (err) {
+        console.error("Error loading project data:", err);
+      }
+    }
+
+    // Authentication Handlers
+    function handleLogin() {
+      const emailInput = document.getElementById('loginEmail');
+      const email = emailInput.value.trim().toUpperCase();
+      const msg = document.getElementById('loginMsg');
+
+      if (!email) {
+        showLoginMsg('يرجى إدخال البريد الإلكتروني', 'bg-red-500/20 text-red-300');
+        return;
+      }
+
+      const isAllowed = allowedUsers.some(u => u.toUpperCase() === email) || email === SUPER_ADMIN;
+
+      if (isAllowed) {
+        currentUser = email;
+        localStorage.setItem('current_user_email', email);
+        showDashboard();
+      } else {
+        showLoginMsg('عذراً، هذا البريد غير مصرح له بالدخول. يرجى مراجعة الأدمن.', 'bg-red-500/20 text-red-300');
+      }
+    }
+
+    function showLoginMsg(text, classes) {
+      const msg = document.getElementById('loginMsg');
+      msg.textContent = text;
+      msg.className = `text-center text-xs py-2 px-3 rounded ${classes}`;
+      msg.classList.remove('hidden');
+    }
+
+    function checkSavedSession() {
+      const saved = localStorage.getItem('current_user_email');
+      if (saved) {
+        currentUser = saved.toUpperCase();
+        showDashboard();
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainDashboard').classList.remove('hidden');
+
+      document.getElementById('userBadge').textContent = currentUser;
+
+      const isAdmin = currentUser === SUPER_ADMIN;
+      if (isAdmin) {
+        document.getElementById('adminTag').classList.remove('hidden');
+        document.getElementById('adminPanelBtn').classList.remove('hidden');
+      } else {
+        document.getElementById('adminTag').classList.add('hidden');
+        document.getElementById('adminPanelBtn').classList.add('hidden');
+      }
+      
+      renderUsersList();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('current_user_email');
+      currentUser = null;
+      document.getElementById('mainDashboard').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginMsg').classList.add('hidden');
+    }
+
+    // Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('text-slate-300');
+      });
+
+      const activeSection = document.getElementById(tabId);
+      if (activeSection) activeSection.classList.remove('hidden');
+
+      const activeBtn = document.querySelector(`.tab-btn[data-target="${tabId}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-blue-600', 'text-white');
+        activeBtn.classList.remove('text-slate-300');
+      }
+    }
+
+    // Render Full Dashboard
+    function renderDashboard() {
+      if (!PROJECT_DATA) return;
+
+      const kpis = PROJECT_DATA.kpis;
+      document.getElementById('lastUpdated').textContent = PROJECT_DATA.project_info.updated_at;
+
+      // KPIs Cards
+      document.getElementById('kpiApprovedContract').textContent = fmt(kpis.contract_approved_total) + " ج.م";
+      document.getElementById('kpiBilledContract').textContent = fmt(kpis.contract_billed_total) + " ج.م";
+      
+      const billedPct = ((kpis.contract_billed_total / kpis.contract_approved_total) * 100).toFixed(1);
+      document.getElementById('kpiBilledRatio').textContent = billedPct + "%";
+
+      document.getElementById('kpiRemainingContract').textContent = fmt(kpis.remaining_contract) + " ج.م";
+      const remainingPct = ((kpis.remaining_contract / kpis.contract_approved_total) * 100).toFixed(1);
+      document.getElementById('kpiRemainingRatio').textContent = remainingPct + "%";
+
+      document.getElementById('kpiPVComp').textContent = fmt(kpis.pv_approved_total) + " ج.م";
+
+      // Render Charts
+      renderCharts();
+
+      // Render Sub-Sections
+      renderQuickTolls();
+      renderQuickHandovers();
+      renderPayAppsTable();
+      renderTollCards();
+      renderPVCompTable();
+      renderHandovers();
+      renderItemsTable();
+    }
+
+    // Charts Rendering
+    function renderCharts() {
+      const ownerInvs = PROJECT_DATA.owner_invoices || [];
+      const currentInvs = ownerInvs.filter(i => i.type.includes('اعمال'));
+
+      // 1. Pay Apps Progression Chart
+      const labels = currentInvs.map(i => `جاري ${i.number}`);
+      const periodVals = currentInvs.map(i => (i.period_val / 1000000).toFixed(2));
+      const cumVals = currentInvs.map(i => (i.cum_val / 1000000).toFixed(2));
+
+      const ctx1 = document.getElementById('chartPayApps').getContext('2d');
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              type: 'line',
+              label: 'التراكمي (مليون ج.م)',
+              data: cumVals,
+              borderColor: '#3b82f6',
+              backgroundColor: '#3b82f6',
+              borderWidth: 2,
+              pointRadius: 3,
+              yAxisID: 'y1'
+            },
+            {
+              type: 'bar',
+              label: 'أعمال الفترة (مليون ج.م)',
+              data: periodVals,
+              backgroundColor: '#10b981',
+              borderRadius: 4,
+              yAxisID: 'y'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', font: { family: 'Cairo' } } }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8', font: { family: 'Cairo' } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y1: { position: 'left', ticks: { color: '#3b82f6' }, grid: { display: false } }
+          }
+        }
+      });
+
+      // 2. Financial Distribution Doughnut
+      const ctx2 = document.getElementById('chartDistribution').getContext('2d');
+      const kpis = PROJECT_DATA.kpis;
+      new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['منصرف جاري', 'متبقي للصرف', 'فروق أسعار معتمدة'],
+          datasets: [{
+            data: [
+              (kpis.contract_billed_total / 1000000).toFixed(1),
+              (kpis.remaining_contract / 1000000).toFixed(1),
+              (kpis.pv_approved_total / 1000000).toFixed(1)
+            ],
+            backgroundColor: ['#10b981', '#f59e0b', '#a855f7'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          cutout: '70%'
+        }
+      });
+
+      document.getElementById('distBilledVal').textContent = fmtM(kpis.contract_billed_total) + " م.ج";
+      document.getElementById('distRemainingVal').textContent = fmtM(kpis.remaining_contract) + " م.ج";
+      document.getElementById('distPVVal').textContent = fmtM(kpis.pv_approved_total) + " م.ج";
+    }
+
+    // Quick Tolls
+    function renderQuickTolls() {
+      const container = document.getElementById('quickTollList');
+      container.innerHTML = '';
+      (PROJECT_DATA.toll_items || []).forEach(t => {
+        const row = document.createElement('div');
+        row.className = 'flex justify-between items-center bg-slate-800/40 p-2 rounded border border-slate-800';
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="font-mono font-bold text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded text-[10px]">${t.code}</span>
+            <span class="text-slate-300 truncate max-w-[200px]">${t.desc}</span>
+          </div>
+          <div class="font-mono text-left font-bold text-slate-200">
+            ${fmt(t.approved_val)} <span class="text-[10px] text-slate-400">ج.م</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // Quick Handovers
+    function renderQuickHandovers() {
+      const container = document.getElementById('quickHandoversList');
+      container.innerHTML = '';
+      (PROJECT_DATA.handovers || []).forEach(h => {
+        const row = document.createElement('div');
+        row.className = 'flex justify-between items-center bg-slate-800/40 p-2 rounded border border-slate-800';
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-blue-400">${h.name}</span>
+            <span class="text-[11px] text-slate-400 font-mono">${h.primary_date}</span>
+          </div>
+          <div class="font-mono text-left font-bold text-slate-200">
+            ${fmt(h.contract_val)} <span class="text-[10px] text-slate-400">ج.م</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // Pay Apps Table
+    function renderPayAppsTable() {
+      const tbody = document.getElementById('payAppsTableBody');
+      const tfoot = document.getElementById('payAppsTableFoot');
+      tbody.innerHTML = '';
+
+      let totalPeriod = 0, totalDed = 0, totalNet = 0;
+
+      (PROJECT_DATA.owner_invoices || []).forEach(inv => {
+        totalPeriod += inv.period_val;
+        totalDed += inv.deduction;
+        totalNet += inv.net_val;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="p-3 font-bold text-white">${inv.number}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${inv.type.includes('اعمال') ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}">${inv.type}</span></td>
+          <td class="p-3 font-mono text-slate-400">${inv.date}</td>
+          <td class="p-3 font-mono text-slate-400">${inv.work_date}</td>
+          <td class="p-3 text-left font-mono font-bold text-slate-200">${fmt(inv.period_val)}</td>
+          <td class="p-3 text-left font-mono text-red-400">${fmt(inv.deduction)}</td>
+          <td class="p-3 text-left font-mono font-bold text-emerald-400">${fmt(inv.net_val)}</td>
+          <td class="p-3 text-left font-mono font-bold text-white">${fmt(inv.cum_val)}</td>
+          <td class="p-3 text-center"><span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">معتمد بالهيئة</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      tfoot.innerHTML = `
+        <tr>
+          <td colspan="4" class="p-3">الإجمالي العام</td>
+          <td class="p-3 text-left font-mono text-slate-200">${fmt(totalPeriod)}</td>
+          <td class="p-3 text-left font-mono text-red-400">${fmt(totalDed)}</td>
+          <td class="p-3 text-left font-mono text-emerald-400">${fmt(totalNet)}</td>
+          <td colspan="2" class="p-3"></td>
+        </tr>
+      `;
+    }
+
+    // Toll Cards
+    function renderTollCards() {
+      const container = document.getElementById('tollCardsGrid');
+      container.innerHTML = '';
+
+      (PROJECT_DATA.toll_items || []).forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'glass-card p-4 border border-slate-700/60 relative';
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">${t.code}</span>
+            <span class="text-xs text-slate-400 font-mono">${fmt(t.rate)} ج.م / ${t.unit}</span>
+          </div>
+          <h4 class="text-xs font-bold text-white mb-3 line-clamp-2">${t.desc}</h4>
+          <div class="space-y-1.5 text-xs font-mono pt-2 border-t border-slate-700/60">
+            <div class="flex justify-between text-slate-400">
+              <span>الكمية المعتمدة:</span>
+              <span class="font-bold text-white">${fmt(t.approved_qty)} ${t.unit}</span>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>القيمة الإجمالية:</span>
+              <span class="font-bold text-amber-400">${fmt(t.approved_val)} ج.م</span>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-emerald-400 pt-1">
+              <span>حالة المطابقة:</span>
+              <span class="font-bold"><i class="fa-solid fa-check"></i> تطابق تام مع المالك</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // PV & Comp Comparison Table
+    function renderPVCompTable() {
+      const tbody = document.getElementById('pvCompTableBody');
+      const tfoot = document.getElementById('pvCompTableFoot');
+      tbody.innerHTML = '';
+
+      const ownerInvs = PROJECT_DATA.owner_invoices || [];
+      const pvInvs = ownerInvs.filter(i => i.type.includes('فروق'));
+      const compInvs = ownerInvs.filter(i => i.type.includes('تعويضات'));
+
+      let sumPV = 0, sumComp = 0, sumApproved = 0;
+
+      // Match 14 pay apps
+      for (let num = 1; num <= 14; num++) {
+        const pv = pvInvs.find(i => Number(i.number) === num);
+        const comp = compInvs.find(i => Number(i.number) === num);
+
+        const pvVal = pv ? pv.period_val : 0;
+        const compVal = comp ? comp.period_val : 0;
+        const maxVal = Math.max(pvVal, compVal);
+        const chosen = compVal > pvVal ? "التعويضات" : "فروق الأسعار";
+        const benefit = Math.abs(compVal - pvVal);
+
+        sumPV += pvVal;
+        sumComp += compVal;
+        sumApproved += maxVal;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="p-3 font-sans font-bold text-white">مستخلص رقم ${num}</td>
+          <td class="p-3 text-left ${pvVal > compVal ? 'text-purple-300 font-bold' : 'text-slate-400'}">${fmt(pvVal)}</td>
+          <td class="p-3 text-left ${compVal > pvVal ? 'text-emerald-300 font-bold' : 'text-slate-400'}">${fmt(compVal)}</td>
+          <td class="p-3 text-center font-sans">
+            <span class="px-2 py-0.5 rounded text-[10px] ${chosen === 'التعويضات' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-purple-500/20 text-purple-300'}">${chosen}</span>
+          </td>
+          <td class="p-3 text-left font-bold text-amber-300">${fmt(maxVal)}</td>
+          <td class="p-3 text-center text-slate-300">+${fmt(benefit)}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+
+      tfoot.innerHTML = `
+        <tr>
+          <td class="p-3 font-sans font-bold">الإجمالي المعتمد</td>
+          <td class="p-3 text-left">${fmt(sumPV)}</td>
+          <td class="p-3 text-left">${fmt(sumComp)}</td>
+          <td class="p-3 text-center font-sans text-emerald-400 font-bold">الأعلى لكل مستخلص</td>
+          <td class="p-3 text-left text-amber-300 font-bold">${fmt(sumApproved)}</td>
+          <td class="p-3 text-center text-emerald-400">+${fmt(sumApproved - sumPV)}</td>
+        </tr>
+      `;
+    }
+
+    // Handovers Full Render
+    function renderHandovers() {
+      const container = document.getElementById('handoversList');
+      container.innerHTML = '';
+
+      let totalVal = 0;
+
+      (PROJECT_DATA.handovers || []).forEach((h, idx) => {
+        totalVal += h.contract_val;
+        const card = document.createElement('div');
+        card.className = 'glass-card p-5 border border-slate-700/60';
+        
+        let sectionsHtml = '';
+        (h.sections || []).forEach(sec => {
+          sectionsHtml += `
+            <tr class="border-b border-slate-800/60 text-slate-300 hover:bg-slate-800/30">
+              <td class="p-2 font-mono">${sec.km_from !== '-' ? `كم ${sec.km_from} إلى ${sec.km_to}` : '-'}</td>
+              <td class="p-2 font-mono">${sec.length !== '-' ? `${sec.length} كم` : '-'}</td>
+              <td class="p-2">${sec.direction}</td>
+              <td class="p-2">${sec.pave_type}</td>
+              <td class="p-2 font-bold text-blue-300">${sec.work_type}</td>
+              <td class="p-2 text-slate-200">${sec.location}</td>
+            </tr>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 pb-3 border-b border-slate-700/60">
+            <div>
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                <span>${h.name}</span>
+              </h4>
+              <div class="flex gap-4 text-xs text-slate-400 mt-1 font-mono">
+                <span>تاريخ الاستلام الابتدائي: <b class="text-slate-200">${h.primary_date}</b></span>
+                <span>الاستلام النهائي: <b class="text-slate-200">${h.final_date}</b></span>
+              </div>
+            </div>
+            <div class="text-left font-mono font-bold text-emerald-400 text-sm">
+              ${fmt(h.contract_val)} <span class="text-xs text-slate-400">ج.م</span>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-slate-800/50 text-slate-400">
+                <tr>
+                  <th class="p-2">القطاع / الكيلو</th>
+                  <th class="p-2">الطول</th>
+                  <th class="p-2">الاتجاه</th>
+                  <th class="p-2">نوع الرصف</th>
+                  <th class="p-2">نوع العمل</th>
+                  <th class="p-2">الموقع</th>
+                </tr>
+              </thead>
+              <tbody>${sectionsHtml}</tbody>
+            </table>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      document.getElementById('totalHandoversVal').textContent = fmt(totalVal);
+    }
+
+    // Items Audit Table
+    function renderItemsTable() {
+      const tbody = document.getElementById('itemsTableBody');
+      const tfoot = document.getElementById('itemsTableFoot');
+      tbody.innerHTML = '';
+
+      let sumAppVal = 0, sumBilledVal = 0, sumRemVal = 0;
+
+      (PROJECT_DATA.items || []).forEach(item => {
+        const remVal = item.approved_val - item.billed_val;
+        sumAppVal += item.approved_val;
+        sumBilledVal += item.billed_val;
+        sumRemVal += remVal;
+
+        const isFullyBilled = Math.abs(remVal) < 1;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition item-row';
+        tr.setAttribute('data-search', `${item.code} ${item.desc}`.toLowerCase());
+        tr.innerHTML = `
+          <td class="p-2.5 font-bold text-blue-400">${item.code}</td>
+          <td class="p-2.5 font-sans text-slate-200 max-w-xs truncate" title="${item.desc}">${item.desc}</td>
+          <td class="p-2.5 text-center font-sans text-slate-400">${item.unit}</td>
+          <td class="p-2.5 text-left text-slate-300">${fmt(item.rate)}</td>
+          <td class="p-2.5 text-left font-bold text-white">${fmt(item.approved_qty)}</td>
+          <td class="p-2.5 text-left text-blue-300 font-bold">${fmt(item.approved_val)}</td>
+          <td class="p-2.5 text-left text-slate-300">${fmt(item.billed_qty)}</td>
+          <td class="p-2.5 text-left text-emerald-400 font-bold">${fmt(item.billed_val)}</td>
+          <td class="p-2.5 text-left font-bold ${remVal > 1 ? 'text-amber-400' : 'text-slate-500'}">${fmt(remVal)}</td>
+          <td class="p-2.5 text-center font-sans">
+            ${isFullyBilled 
+              ? '<span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold">منصرف بالكامل</span>' 
+              : '<span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">متبقي صرف</span>'}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      tfoot.innerHTML = `
+        <tr>
+          <td colspan="5" class="p-2.5 font-sans">الإجمالي لجميع بنود المشروع (66 بند)</td>
+          <td class="p-2.5 text-left text-blue-300 font-bold">${fmt(sumAppVal)}</td>
+          <td></td>
+          <td class="p-2.5 text-left text-emerald-400 font-bold">${fmt(sumBilledVal)}</td>
+          <td class="p-2.5 text-left text-amber-400 font-bold">${fmt(sumRemVal)}</td>
+          <td></td>
+        </tr>
+      `;
+    }
+
+    // Filter Items Table
+    function filterItemsTable() {
+      const q = document.getElementById('searchItems').value.toLowerCase();
+      document.querySelectorAll('.item-row').forEach(row => {
+        const text = row.getAttribute('data-search') || '';
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    // Filter Pay Apps Table
+    function filterPayAppsTable() {
+      const q = document.getElementById('searchPayApps').value.toLowerCase();
+      document.querySelectorAll('#payAppsTableBody tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // Refresh Data from Backend / Drive
+    async function refreshData() {
+      const btn = event.currentTarget;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> مزامنة...';
+      try {
+        await fetch('/api/refresh-data', { method: 'POST' });
+      } catch (e) {
+        // Fallback for static demo
+      }
+      await loadProjectData();
+      btn.innerHTML = '<i class="fa-solid fa-rotate"></i> مزامنة';
+    }
+
+    // Admin Modal & User Management
+    function toggleAdminModal() {
+      const modal = document.getElementById('adminModal');
+      modal.classList.toggle('hidden');
+    }
+
+    function renderUsersList() {
+      const container = document.getElementById('usersListContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      allowedUsers.forEach(email => {
+        const isSuper = email === SUPER_ADMIN;
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between p-2 bg-slate-900/80 rounded border border-slate-800 text-xs';
+        div.innerHTML = `
+          <div class="flex items-center gap-2">
+            <i class="fa-regular fa-envelope text-slate-400"></i>
+            <span class="font-mono text-slate-200">${email}</span>
+            ${isSuper ? '<span class="text-[9px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded font-bold">مدير رئيسي</span>' : ''}
+          </div>
+          ${!isSuper ? `
+            <button onclick="removeUserEmail('${email}')" class="text-red-400 hover:text-red-300 px-2 py-0.5">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          ` : ''}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function addUserEmail() {
+      const input = document.getElementById('newUserEmail');
+      const email = input.value.trim().toUpperCase();
+      if (!email || !email.includes('@')) {
+        alert('يرجى إدخال بريد إلكتروني صحيح');
+        return;
+      }
+      if (allowedUsers.includes(email)) {
+        alert('هذا البريد مسجل بالفعل مسبقاً');
+        return;
+      }
+      allowedUsers.push(email);
+      saveAllowedUsers();
+      renderUsersList();
+      input.value = '';
+    }
+
+    function removeUserEmail(email) {
+      if (confirm(`هل تريد بالتأكيد إلغاء صلاحية الدخول للحساب: ${email}؟`)) {
+        allowedUsers = allowedUsers.filter(u => u !== email);
+        saveAllowedUsers();
+        renderUsersList();
+      }
+    }
+  </script>
+</body>
+</html>
