@@ -171,36 +171,51 @@ html_code = f'''<!DOCTYPE html>
 
     /* ========================================================================= */
     /* A3 LANDSCAPE PRINT OPTIMIZATION                                          */
+        /* ========================================================================= */
+    /* A3 LANDSCAPE EXECUTIVE PRINT OPTIMIZATION (High Clarity & Multi-page)     */
     /* ========================================================================= */
     @page {{
       size: A3 landscape;
-      margin: 12mm 15mm 12mm 15mm;
+      margin: 10mm 12mm 12mm 12mm;
     }}
 
     @media print {{
-      /* Hide all interactive elements */
-      header nav, .no-print, button, #loginOverlay, #userManageModal, 
-      #mobileBottomNav, .install-prompt-banner, input, select {{
+      /* 1. Hide all webpage navbar, mobile nav, modals, buttons, and screen tools */
+      header, nav, #mobileBottomNav, button, input, select, .no-print, 
+      #loginOverlay, #userManageModal, .install-prompt-banner, footer,
+      .scrollbar-none {{
         display: none !important;
       }}
-      
-      body {{
+
+      /* 2. Unblock root flexbox so Chrome paginates cleanly across multiple pages */
+      html, body {{
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        position: static !important;
         background: #ffffff !important;
         color: #000000 !important;
-        font-size: 10pt !important;
+        font-size: 11pt !important;
+        line-height: 1.4 !important;
+        font-family: 'Cairo', 'Tajawal', sans-serif !important;
         padding: 0 !important;
         margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }}
 
-      /* Force light background on all cards */
-      .glass-card, .stat-card {{
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        box-shadow: none !important;
-        color: #000000 !important;
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
-        margin-bottom: 12px !important;
+      main, #app, .tab-content {{
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        position: static !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
       }}
 
       /* Force display of active tab only */
@@ -211,69 +226,253 @@ html_code = f'''<!DOCTYPE html>
         display: block !important;
       }}
 
-      /* Show Fixed Print Header on every page */
+      /* 3. Official High-Contrast Print Header */
       .print-only.print-header {{
         display: flex !important;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 2px solid #0f172a;
-        padding-bottom: 8px;
-        margin-bottom: 14px;
+        border-bottom: 2.5px solid #000000 !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 14px !important;
+        background: #ffffff !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
       }}
 
-      /* Fixed Print Footer */
+      .print-only.print-header div {{
+        color: #000000 !important;
+      }}
+
+      #printActiveTabTitle {{
+        font-size: 14pt !important;
+        font-weight: 900 !important;
+        color: #000000 !important;
+        border: 2.5px solid #000000 !important;
+        border-radius: 8px !important;
+        padding: 4px 18px !important;
+        background: #f8fafc !important;
+      }}
+
+      /* 4. Official Print Footer */
       .print-only.print-footer {{
         display: flex !important;
         justify-content: space-between;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        border-top: 1px solid #94a3b8;
-        padding-top: 4px;
-        font-size: 8.5pt;
-        color: #475569;
+        align-items: center;
+        border-top: 1.5px solid #000000 !important;
+        padding-top: 6px !important;
+        margin-top: 14px !important;
+        font-size: 10pt !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+        background: #ffffff !important;
+        page-break-before: auto !important;
       }}
 
-      /* Prevent page breaks inside critical elements */
-      tr, .avoid-break, .stat-card {{
+      /* 5. A3 Grid Layouts across 420mm width */
+      #tabOverview > .grid:first-of-type {{
+        display: grid !important;
+        grid-template-columns: repeat(6, 1fr) !important;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
+      }}
+
+      #tabOverview > .grid:nth-of-type(2) {{
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+        margin-bottom: 12px !important;
+      }}
+
+      #tabOverview > .grid:nth-of-type(3) {{
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+      }}
+
+      #tabHandovers > .grid:first-of-type,
+      #tabHandovers .grid-cols-4 {{
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+      }}
+
+      #tabHandovers .grid-cols-2 {{
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+        margin-bottom: 12px !important;
+      }}
+
+      /* 6. Sharp Cards & KPI Boxes */
+      .glass-card, .stat-card {{
+        background: #ffffff !important;
+        border: 1.5px solid #475569 !important;
+        box-shadow: none !important;
+        color: #000000 !important;
+        border-radius: 8px !important;
+        padding: 10px 12px !important;
+        margin-bottom: 12px !important;
         break-inside: avoid !important;
         page-break-inside: avoid !important;
+      }}
+
+      /* Card numbers and titles clarity */
+      .glass-card .text-xl, 
+      .glass-card .text-2xl, 
+      .glass-card .text-3xl {{
+        color: #000000 !important;
+        font-weight: 900 !important;
+        font-size: 17pt !important;
+        font-family: 'Cairo', sans-serif !important;
+      }}
+
+      .glass-card .text-xs,
+      .glass-card .text-sm {{
+        color: #0f172a !important;
+        font-weight: 800 !important;
+        font-size: 11pt !important;
+      }}
+
+      .glass-card [class*="text-[11px]"],
+      .glass-card [class*="text-[10px]"] {{
+        color: #334155 !important;
+        font-weight: 700 !important;
+        font-size: 9.5pt !important;
+      }}
+
+      /* 7. Crystal-Clear High-Contrast Tables */
+      .overflow-x-auto, .table-responsive {{
+        overflow: visible !important;
+        width: 100% !important;
       }}
 
       table {{
         width: 100% !important;
         border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        margin-top: 8px !important;
+        margin-bottom: 14px !important;
         page-break-inside: auto !important;
+        break-inside: auto !important;
       }}
 
       thead {{
-        display: table-header-group !important; /* Repeats table headers on page break */
+        display: table-header-group !important; /* Repeats table headers on every page */
       }}
 
-      th, td {{
-        border: 1px solid #cbd5e1 !important;
-        color: #000000 !important;
-        padding: 4px 6px !important;
-        font-size: 8.5pt !important;
+      tfoot {{
+        display: table-footer-group !important;
+      }}
+
+      tr {{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }}
 
       th {{
-        background-color: #f1f5f9 !important;
-        font-weight: bold !important;
+        background-color: #e2e8f0 !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+        font-weight: 800 !important;
+        text-align: center !important;
+        border: 1.5px solid #000000 !important;
+        padding: 7px 8px !important;
+        vertical-align: middle !important;
       }}
 
-      /* Colors for print */
-      .text-emerald-400, .text-emerald-300 {{ color: #047857 !important; font-weight: bold !important; }}
-      .text-brand-400, .text-sky-400 {{ color: #0369a1 !important; font-weight: bold !important; }}
-      .text-amber-400, .text-amber-300 {{ color: #b45309 !important; font-weight: bold !important; }}
-      .text-purple-400 {{ color: #6b21a8 !important; font-weight: bold !important; }}
-      .text-white {{ color: #0f172a !important; }}
-      .text-slate-400, .text-slate-500, .text-slate-300 {{ color: #334155 !important; }}
+      td {{
+        border: 1.2px solid #475569 !important;
+        color: #000000 !important;
+        padding: 6px 8px !important;
+        font-size: 10.5pt !important;
+        font-weight: 600 !important;
+        vertical-align: middle !important;
+      }}
 
-      /* Chart container in print */
+      /* Zebra Striping */
+      tbody tr:nth-child(even) td {{
+        background-color: #f8fafc !important;
+      }}
+      tbody tr:nth-child(odd) td {{
+        background-color: #ffffff !important;
+      }}
+
+      /* Totals Rows */
+      tr.font-black td, tr.font-bold td, tfoot td {{
+        background-color: #e2e8f0 !important;
+        font-weight: 900 !important;
+        font-size: 11.5pt !important;
+        border-top: 2.5px solid #000000 !important;
+        border-bottom: 2.5px solid #000000 !important;
+      }}
+
+      /* Numeric Data in Tables */
+      .font-mono, td[class*="text-emerald"], td[class*="text-sky"], 
+      td[class*="text-amber"], td[class*="text-purple"] {{
+        font-weight: 800 !important;
+        font-size: 11pt !important;
+        font-family: 'Cairo', monospace !important;
+      }}
+
+      /* Section Headings */
+      h3, h4 {{
+        color: #000000 !important;
+        font-weight: 900 !important;
+        font-size: 13pt !important;
+        border-bottom: 1.5px solid #000000 !important;
+        padding-bottom: 4px !important;
+        margin-bottom: 8px !important;
+      }}
+
+      /* Status Badges */
+      span[class*="rounded-full"], span[class*="rounded-lg"] {{
+        border: 1.2px solid #000000 !important;
+        font-weight: 800 !important;
+        font-size: 9.5pt !important;
+        padding: 2px 6px !important;
+        color: #000000 !important;
+        background-color: #f1f5f9 !important;
+      }}
+
+      /* 8. Deep, Sharp Colors for Print (No Faint Text) */
+      .text-emerald-400, .text-emerald-500, .text-emerald-600, .text-emerald-700, .text-emerald-300 {{ 
+        color: #065f46 !important; 
+        font-weight: 800 !important; 
+      }}
+      .text-brand-400, .text-brand-600, .text-sky-400, .text-sky-600, .text-sky-700, .text-blue-400, .text-blue-600 {{ 
+        color: #1e40af !important; 
+        font-weight: 800 !important; 
+      }}
+      .text-amber-400, .text-amber-500, .text-amber-600, .text-amber-700, .text-amber-300 {{ 
+        color: #92400e !important; 
+        font-weight: 800 !important; 
+      }}
+      .text-purple-400, .text-purple-600, .text-purple-700 {{ 
+        color: #6b21a8 !important; 
+        font-weight: 800 !important; 
+      }}
+      .text-teal-400, .text-teal-600, .text-teal-700 {{ 
+        color: #0f766e !important; 
+        font-weight: 800 !important; 
+      }}
+      .text-rose-400, .text-rose-600, .text-rose-700, .text-red-500, .text-red-600 {{ 
+        color: #991b1b !important; 
+        font-weight: 800 !important; 
+      }}
+      .text-white, .text-slate-100, .text-slate-200, .text-slate-800, .text-slate-900 {{ 
+        color: #000000 !important; 
+      }}
+      .text-slate-300, .text-slate-400, .text-slate-500, .text-slate-600, .text-slate-700 {{ 
+        color: #334155 !important; 
+        font-weight: 700 !important; 
+      }}
+
+      /* Charts in Print */
       canvas {{
         max-width: 100% !important;
+        height: auto !important;
       }}
     }}
   </style>
@@ -730,7 +929,7 @@ html_code = f'''<!DOCTYPE html>
       </div>
 
       <!-- Engineering Scope & Components Table (Avoid page break in print) -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 avoid-break">
+      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 ">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 light:border-slate-200 pb-3">
           <div>
             <h3 class="text-sm sm:text-base font-extrabold text-white light:text-slate-900 flex items-center gap-2">
@@ -764,7 +963,7 @@ html_code = f'''<!DOCTYPE html>
       </div>
 
       <!-- Financial Status Table & Donut Chart -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 avoid-break">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
         
         <!-- Table (2 cols) -->
         <div class="lg:col-span-2 glass-card rounded-2xl p-4 sm:p-5 space-y-3">
@@ -1015,8 +1214,8 @@ html_code = f'''<!DOCTYPE html>
 
       </div>
 
-      <!-- Individual Handovers Table (Avoid break) -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 avoid-break">
+      <!-- Individual Handovers Table -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
         <div class="flex items-center justify-between border-b border-slate-800 light:border-slate-200 pb-2.5">
           <h3 class="text-sm font-extrabold text-white light:text-slate-900 flex items-center gap-2">
             <i class="fa-solid fa-list-check text-brand-400"></i>
@@ -1052,8 +1251,8 @@ html_code = f'''<!DOCTYPE html>
     <!-- ======================================================================= -->
     <section id="tabBoq" class="tab-content hidden space-y-6">
       
-      <!-- 9 Main Work Categories Table (Avoid break) -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 avoid-break">
+      <!-- 9 Main Work Categories Table -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 light:border-slate-200 pb-3">
           <div>
             <h3 class="text-sm sm:text-base font-extrabold text-white light:text-slate-900 flex items-center gap-2">
@@ -1090,7 +1289,7 @@ html_code = f'''<!DOCTYPE html>
       </div>
 
       <!-- Detailed 74 Items Table with Live Filter & Search (Avoid break) -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 avoid-break">
+      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 ">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800 light:border-slate-200 pb-3">
           <div>
             <h3 class="text-sm sm:text-base font-extrabold text-white light:text-slate-900 flex items-center gap-2">
@@ -1153,8 +1352,8 @@ html_code = f'''<!DOCTYPE html>
     <!-- ======================================================================= -->
     <section id="tabPayApps" class="tab-content hidden space-y-6">
       
-      <!-- Pay Apps Summary Table (Avoid break) -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3 avoid-break">
+      <!-- Pay Apps Summary Table -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 light:border-slate-200 pb-3">
           <div>
             <h3 class="text-sm sm:text-base font-extrabold text-white light:text-slate-900 flex items-center gap-2">
