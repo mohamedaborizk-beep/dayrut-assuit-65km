@@ -1651,10 +1651,27 @@ html_code = f'''<!DOCTYPE html>
     // AUTHENTICATION & ACCESS CONTROL
     // =========================================================================
     function initAuth() {{
-      // Initialize users in localStorage if not exists
-      if (!localStorage.getItem('registered_users')) {{
-        localStorage.setItem('registered_users', JSON.stringify(projectData.authorized_users || []));
+      // Synchronize latest authorized users from projectData into localStorage
+      const defaultUsers = projectData.authorized_users || [];
+      let localUsers = [];
+      try {{
+        localUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      }} catch(e) {{
+        localUsers = [];
       }}
+
+      defaultUsers.forEach(defU => {{
+        const idx = localUsers.findIndex(u => u.email.toLowerCase() === defU.email.toLowerCase());
+        if (idx === -1) {{
+          localUsers.push(defU);
+        }} else {{
+          localUsers[idx].password = defU.password;
+          localUsers[idx].name = defU.name;
+          localUsers[idx].role = defU.role;
+        }}
+      }});
+
+      localStorage.setItem('registered_users', JSON.stringify(localUsers));
 
       // Check session / remember me
       const savedUser = localStorage.getItem('logged_in_user') || sessionStorage.getItem('logged_in_user');

@@ -357,6 +357,30 @@ full_dataset = {
             'role': 'مدير النظام (Admin)'
         },
         {
+            'email': 'sayed.desouky@kharafi-egypt.com',
+            'password': '123',
+            'name': 'م. سيد دسوقي',
+            'role': 'رئيس مجلس الإدارة والمدير التنفيذي'
+        },
+        {
+            'email': 'mohamed.elsayed@kharafi-egypt.com',
+            'password': '123',
+            'name': 'م. محمد السيد',
+            'role': 'مدير الشئون الفنية بالشركة'
+        },
+        {
+            'email': 'hatem.farid@kharafi-egypt.com',
+            'password': '123',
+            'name': 'م. حاتم فريد',
+            'role': 'مدير المشروعات'
+        },
+        {
+            'email': 'waleed.musallam@kharafi-egypt.com',
+            'password': '123',
+            'name': 'م. وليد مسلم',
+            'role': 'مدير المشروع'
+        },
+        {
             'email': 'admin@emac.com',
             'password': '123',
             'name': 'إدارة إيماك للمقاولات',
