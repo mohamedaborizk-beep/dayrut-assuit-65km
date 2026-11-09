@@ -13,9 +13,9 @@ class ProjectAppHandler(SimpleHTTPRequestHandler):
         if self.path == '/api/refresh-data':
             try:
                 # Run extraction script
-                scratch_script = os.path.join(APP_DIR, '..', '..', '..', '..', '..', '..', 'Users', 'user', '.gemini', 'antigravity', 'brain', '5dc9d524-e02e-44cc-9ba3-083f32e7ff79', 'scratch', 'extract_all_dashboard_data.py')
-                if os.path.exists(scratch_script):
-                    subprocess.run([sys.executable, scratch_script], check=True)
+                script_path = os.path.join(APP_DIR, 'update_data.py')
+                if os.path.exists(script_path):
+                    subprocess.run([sys.executable, script_path], check=True)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()

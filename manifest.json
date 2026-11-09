@@ -1,0 +1,21 @@
+{
+  "name": "مشروع ديروط - أسيوط 65 كم",
+  "short_name": "ديروط 65كم",
+  "description": "لوحة المتابعة التنفيذية والمالية لمشروع طريق الصعيد الصحراوي الغربي ديروط - أسيوط بطول 65 كم",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a1024",
+  "theme_color": "#0284c7",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
