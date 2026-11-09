@@ -1473,26 +1473,47 @@
         </button>
       </form>
 
-      <!-- Quick Demo Users Pill -->
-      <div class="mt-6 pt-4 border-t border-slate-800 light:border-slate-200">
-        <div class="text-[10px] text-slate-400 light:text-slate-500 text-center mb-2 font-bold">حسابات مصرح لها (اضغط للدخول المباشر):</div>
-        <div class="grid grid-cols-2 gap-2 text-[10px]">
-          <button onclick="fillDemoUser('MOHAMEDABORIZK@GMAIL.COM', 'admin')" class="p-2 rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:bg-slate-700 transition text-right">
+      <!-- Quick Login Shortcuts for Registered Leaders -->
+      <div class="mt-5 pt-3 border-t border-slate-800 dark:border-slate-800 light:border-slate-200">
+        <div class="text-[11px] text-slate-400 light:text-slate-600 text-center mb-2.5 font-bold flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-bolt text-amber-400"></i>
+          <span>حسابات الدخول السريع المعتمدة (اضغط للدخول المباشر):</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-[10.5px]">
+          
+          <!-- 1. م. محمد أبو رزق -->
+          <button type="button" onclick="fillDemoUser('MOHAMEDABORIZK@GMAIL.COM', 'admin')" class="p-2.5 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 light:bg-slate-100 hover:bg-slate-700/80 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-300 text-right transition flex flex-col justify-between">
             <div class="font-bold text-white light:text-slate-900">م. محمد أبو رزق</div>
-            <div class="text-[9px] text-brand-400">Admin (مدير النظام)</div>
+            <div class="text-[9.5px] text-brand-400 font-semibold mt-0.5">مدير النظام (Admin)</div>
           </button>
-          <button onclick="fillDemoUser('admin@emac.com', '123')" class="p-2 rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:bg-slate-700 transition text-right">
-            <div class="font-bold text-white light:text-slate-900">إدارة إيماك</div>
-            <div class="text-[9px] text-emerald-400">المقاول (مدير المشروع)</div>
+
+          <!-- 2. م. سيد دسوقي -->
+          <button type="button" onclick="fillDemoUser('sayed.desouky@kharafi-egypt.com', '123')" class="p-2.5 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 light:bg-slate-100 hover:bg-slate-700/80 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-300 text-right transition flex flex-col justify-between">
+            <div class="font-bold text-white light:text-slate-900">م. سيد دسوقي</div>
+            <div class="text-[9.5px] text-amber-400 font-semibold mt-0.5">رئيس مجلس الإدارة</div>
           </button>
-          <button onclick="fillDemoUser('roads.zone7@mot.gov.eg', '123')" class="p-2 rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:bg-slate-700 transition text-right">
-            <div class="font-bold text-white light:text-slate-900">المنطقة السابعة</div>
-            <div class="text-[9px] text-blue-400">الهيئة (المالك)</div>
+
+          <!-- 3. م. محمد السيد -->
+          <button type="button" onclick="fillDemoUser('mohamed.elsayed@kharafi-egypt.com', '123')" class="p-2.5 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 light:bg-slate-100 hover:bg-slate-700/80 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-300 text-right transition flex flex-col justify-between">
+            <div class="font-bold text-white light:text-slate-900">م. محمد السيد</div>
+            <div class="text-[9.5px] text-emerald-400 font-semibold mt-0.5">مدير الشئون الفنية</div>
           </button>
-          <button onclick="fillDemoUser('qs@emac.com', '123')" class="p-2 rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:bg-slate-700 transition text-right">
-            <div class="font-bold text-white light:text-slate-900">المكتب الفني</div>
-            <div class="text-[9px] text-purple-400">مهندس الحصر</div>
+
+          <!-- 4. م. حاتم فريد -->
+          <button type="button" onclick="fillDemoUser('hatem.farid@kharafi-egypt.com', '123')" class="p-2.5 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 light:bg-slate-100 hover:bg-slate-700/80 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-300 text-right transition flex flex-col justify-between">
+            <div class="font-bold text-white light:text-slate-900">م. حاتم فريد</div>
+            <div class="text-[9.5px] text-sky-400 font-semibold mt-0.5">مدير المشروعات</div>
           </button>
+
+          <!-- 5. م. وليد مسلم -->
+          <button type="button" onclick="fillDemoUser('waleed.musallam@kharafi-egypt.com', '123')" class="col-span-2 p-2.5 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 light:bg-slate-100 hover:bg-slate-700/80 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-300 text-right transition flex items-center justify-between">
+            <div>
+              <div class="font-bold text-white light:text-slate-900">م. وليد مسلم</div>
+              <div class="text-[9.5px] text-teal-400 font-semibold mt-0.5">مدير المشروع</div>
+            </div>
+            <span class="text-[10px] bg-teal-500/10 text-teal-300 light:text-teal-700 px-2.5 py-1 rounded-lg border border-teal-500/20 font-bold">دخول مباشر</span>
+          </button>
+
         </div>
       </div>
 
@@ -1708,8 +1729,13 @@
     }
 
     function fillDemoUser(email, pass) {
-      document.getElementById('loginEmail').value = email;
-      document.getElementById('loginPassword').value = pass;
+      const emailInput = document.getElementById('loginEmail');
+      const passInput = document.getElementById('loginPassword');
+      if (emailInput && passInput) {
+        emailInput.value = email;
+        passInput.value = pass;
+        handleLogin(new Event('submit'));
+      }
     }
 
     function onUserAuthenticated(user) {
