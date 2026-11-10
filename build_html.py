@@ -610,7 +610,12 @@ html_code = f'''<!DOCTYPE html>
 
       <button onclick="switchTab('tabPayApps', 'المستخلصات الجارية وفروق الأسعار والتعويضات (1-16)')" class="tab-btn px-4 py-2 rounded-xl text-slate-300 dark:text-slate-300 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition flex items-center gap-2 whitespace-nowrap" data-target="tabPayApps">
         <i class="fa-solid fa-file-invoice-dollar text-purple-400"></i>
-        <span>المستخلصات الجارية وفروق الأسعار والتعويضات (1-16)</span>
+        <span>المستخلصات الجارية وفروق الأسعار (1-16)</span>
+      </button>
+
+      <button onclick="switchTab('tabLetters', 'سجل ومكتبة المراسلات الرسمية وسلاسل الإسناد التعاقدية (27 ملفاً)')" class="tab-btn px-4 py-2 rounded-xl text-slate-300 dark:text-slate-300 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition flex items-center gap-2 whitespace-nowrap" data-target="tabLetters">
+        <i class="fa-solid fa-envelopes-bulk text-amber-400"></i>
+        <span>المراسلات وسلاسل الإسناد (27)</span>
       </button>
     </nav>
   </header>
@@ -634,6 +639,10 @@ html_code = f'''<!DOCTYPE html>
     <button onclick="switchTab('tabPayApps', 'المستخلصات وفروق الأسعار')" class="mobile-nav-btn flex flex-col items-center gap-1 p-1.5 text-slate-400 light:text-slate-600" data-target="tabPayApps">
       <i class="fa-solid fa-file-invoice-dollar text-base text-purple-400"></i>
       <span>المستخلصات</span>
+    </button>
+    <button onclick="switchTab('tabLetters', 'سجل المراسلات والخطابات الرسمية')" class="mobile-nav-btn flex flex-col items-center gap-1 p-1.5 text-slate-400 light:text-slate-600" data-target="tabLetters">
+      <i class="fa-solid fa-envelopes-bulk text-base text-amber-400"></i>
+      <span>المراسلات</span>
     </button>
   </nav>
 
@@ -1406,6 +1415,242 @@ html_code = f'''<!DOCTYPE html>
 
     </section>
 
+    <!-- ======================================================================= -->
+    <!-- TAB 5: سجل المراسلات وسلاسل الإسناد التعاقدية (27 ملفاً)                 -->
+    <!-- ======================================================================= -->
+    <section id="tabLetters" class="tab-content hidden space-y-6">
+      
+      <!-- Top Title & Badge Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-gradient-to-r from-navy-900/90 via-navy-950/90 to-navy-900/90 dark:from-navy-900/90 dark:via-navy-950/90 light:from-slate-100 light:via-white light:to-slate-100 p-4 rounded-3xl border border-slate-800/80 light:border-slate-200 shadow-xl">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <h2 class="text-base sm:text-lg font-black text-white light:text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-envelopes-bulk text-amber-400"></i>
+              سجل ومكتبة المراسلات الرسمية وسلاسل الإسناد التعاقدية
+            </h2>
+          </div>
+          <p class="text-xs text-slate-400 light:text-slate-600 mt-1">
+            مشروع تطوير طريق الصعيد الصحراوي الغربي (ديروط - أسيوط 65 كم) | عقد 426/2022/2023 | المقاول: شركة إيماك للمقاولات
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="openLetterGeneratorModal()" class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 light:text-amber-800 border border-amber-500/30 font-bold text-xs flex items-center gap-2 transition shadow-lg shadow-amber-500/10">
+            <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+            <span>مساعد صياغة مراجع الخطابات الجديدة</span>
+          </button>
+          <button onclick="openEmbeddedDocsModal()" class="px-3 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 light:text-purple-800 border border-purple-500/30 font-bold text-xs flex items-center gap-2 transition">
+            <i class="fa-solid fa-paperclip text-purple-400"></i>
+            <span>دليل الوثائق المرفقة داخلياً (12)</span>
+          </button>
+          <button onclick="openThreadExplorerModal()" class="px-3 py-2 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 light:text-blue-800 border border-blue-500/30 font-bold text-xs flex items-center gap-2 transition">
+            <i class="fa-solid fa-diagram-project text-blue-400"></i>
+            <span>خريطة سلاسل الإسناد</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Top 6 KPI Summary Cards Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <!-- Card 1: إجمالي الملفات -->
+        <div class="glass-card stat-card rounded-2xl p-3.5 text-right">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+            <span>ملفات الـ PDF الأصلية</span>
+            <i class="fa-solid fa-file-pdf text-rose-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white light:text-slate-900" id="statTotalLetters">27 <span class="text-xs font-normal text-slate-400">ملفاً</span></div>
+          <div class="text-[10px] text-slate-400 mt-1 border-t border-slate-800/60 light:border-slate-200 pt-1 flex justify-between">
+            <span>مسحوبة ضوئياً</span>
+            <span class="text-rose-400 font-bold">180 صفحة</span>
+          </div>
+        </div>
+
+        <!-- Card 2: الوثائق المفهرسة والمرفقة -->
+        <div class="glass-card stat-card rounded-2xl p-3.5 text-right">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+            <span>إجمالي الوثائق والمكاتبات</span>
+            <i class="fa-solid fa-folder-tree text-purple-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white light:text-slate-900">39 <span class="text-xs font-normal text-slate-400">وثيقة</span></div>
+          <div class="text-[10px] text-slate-400 mt-1 border-t border-slate-800/60 light:border-slate-200 pt-1 flex justify-between">
+            <span>مرفقة داخل الملفات</span>
+            <span class="text-purple-400 font-bold">12 مستنداً</span>
+          </div>
+        </div>
+
+        <!-- Card 3: المطالبات التمويلية -->
+        <div class="glass-card stat-card rounded-2xl p-3.5 text-right">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+            <span>الأعباء التمويلية الموثقة</span>
+            <i class="fa-solid fa-money-bill-trend-up text-blue-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-blue-400 light:text-blue-600">1.50 <span class="text-xs font-normal text-slate-400">مليار ج.م</span></div>
+          <div class="text-[10px] text-slate-400 mt-1 border-t border-slate-800/60 light:border-slate-200 pt-1 flex justify-between">
+            <span>خسائر فوائد وتأخير</span>
+            <span class="text-blue-400 font-bold">خطاب 47-26</span>
+          </div>
+        </div>
+
+        <!-- Card 4: المستحقات والتعويضات -->
+        <div class="glass-card stat-card rounded-2xl p-3.5 text-right">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+            <span>مستحقات وتعويضات متأخرة</span>
+            <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 light:text-emerald-600">&gt; 560 <span class="text-xs font-normal text-slate-400">مليون ج.م</span></div>
+          <div class="text-[10px] text-slate-400 mt-1 border-t border-slate-800/60 light:border-slate-200 pt-1 flex justify-between">
+            <span>تعويضات 1-5 معتمدة</span>
+            <span class="text-emerald-400 font-bold">184.3 م.ج</span>
+          </div>
+        </div>
+
+        <!-- Card 5: الإنجاز الفعلي المثبت -->
+        <div class="glass-card stat-card rounded-2xl p-3.5 text-right">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+            <span>الإنجاز الفعلي المثبت تعاقدياً</span>
+            <i class="fa-solid fa-chart-pie text-cyan-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-cyan-400 light:text-cyan-600">89.1% <span class="text-xs font-normal text-slate-400">فعلي</span></div>
+          <div class="text-[10px] text-slate-400 mt-1 border-t border-slate-800/60 light:border-slate-200 pt-1 flex justify-between">
+            <span>من المقايسة 2.34 مليار</span>
+            <span class="text-cyan-400 font-bold">&gt;100% بالتعويض</span>
+          </div>
+        </div>
+
+        <!-- Card 6: المحاور النشطة -->
+        <div class="glass-card stat-card rounded-2xl p-3.5 text-right">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-1">
+            <span>المحاور التعاقدية النشطة</span>
+            <i class="fa-solid fa-scale-balanced text-amber-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 light:text-amber-600">5 <span class="text-xs font-normal text-slate-400">محاور</span></div>
+          <div class="text-[10px] text-slate-400 mt-1 border-t border-slate-800/60 light:border-slate-200 pt-1 flex justify-between">
+            <span>تغطية تعاقدية</span>
+            <span class="text-amber-400 font-bold">100% شاملة</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter & Search Toolbar Card -->
+      <div class="glass-card rounded-3xl p-4 sm:p-5 space-y-4">
+        
+        <!-- Search and View Toggle Row -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="letterSearchInput" oninput="handleLetterSearch(this.value)" placeholder="ابحث برقم المرجع (مثال: 47-26)، التاريخ، رقم قيد الوارد، الموضوع، أو أي مبلغ..." class="w-full bg-slate-950/70 dark:bg-slate-950/70 light:bg-slate-50 border border-slate-800/80 dark:border-slate-800/80 light:border-slate-300 rounded-2xl pr-10 pl-10 py-2.5 text-xs text-white light:text-slate-900 focus:outline-none focus:border-brand-500 transition shadow-inner">
+            <button onclick="clearLetterSearch()" id="clearLetterSearchBtn" class="hidden absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <!-- View Mode Toggle -->
+          <div class="flex items-center gap-1.5 bg-slate-950/60 light:bg-slate-100 p-1 rounded-2xl border border-slate-800/80 light:border-slate-200 self-end md:self-auto">
+            <button onclick="setLettersViewMode('cards')" id="viewModeCardsBtn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-600 text-white shadow-md">
+              <i class="fa-solid fa-grip"></i>
+              <span>بطاقات تفصيلية</span>
+            </button>
+            <button onclick="setLettersViewMode('table')" id="viewModeTableBtn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 text-slate-400 hover:text-white">
+              <i class="fa-solid fa-table-list"></i>
+              <span>جدول شامل</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- The 5 Thematic Axes Buttons (بدون محور مستقل للاستلامات) -->
+        <div>
+          <div class="text-[11px] font-bold text-slate-400 mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-filter text-brand-400"></i>
+            <span>المحاور التعاقدية الرئيسية (اختر المحور للتصفية):</span>
+          </div>
+          <div class="flex flex-wrap gap-2" id="letterCategoryFilters">
+            <button onclick="filterLettersByCategory('all')" data-cat="all" class="letter-cat-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-600 text-white shadow-sm">
+              <i class="fa-solid fa-list-check"></i>
+              <span>جميع المراسلات</span>
+              <span class="count-badge bg-black/20 px-1.5 py-0.5 rounded-md text-[10px]">27</span>
+            </button>
+            <button onclick="filterLettersByCategory('financial')" data-cat="financial" class="letter-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-white border border-slate-800 light:border-slate-200">
+              <i class="fa-solid fa-file-invoice-dollar text-blue-400"></i>
+              <span>مالي وتمويلي وفروق أسعار</span>
+              <span class="count-badge bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded-md text-[10px]">13</span>
+            </button>
+            <button onclick="filterLettersByCategory('extension')" data-cat="extension" class="letter-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-white border border-slate-800 light:border-slate-200">
+              <i class="fa-solid fa-clock-rotate-left text-emerald-400"></i>
+              <span>تمديدات زمنية وأوامر تغييرية</span>
+              <span class="count-badge bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-md text-[10px]">3</span>
+            </button>
+            <button onclick="filterLettersByCategory('supply')" data-cat="supply" class="letter-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-white border border-slate-800 light:border-slate-200">
+              <i class="fa-solid fa-oil-well text-amber-400"></i>
+              <span>توريدات ومواد (بيتومين وسولار)</span>
+              <span class="count-badge bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-md text-[10px]">4</span>
+            </button>
+            <button onclick="filterLettersByCategory('legal')" data-cat="legal" class="letter-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-white border border-slate-800 light:border-slate-200">
+              <i class="fa-solid fa-scale-balanced text-rose-400"></i>
+              <span>قانوني وسحب أعمال</span>
+              <span class="count-badge bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded-md text-[10px]">3</span>
+            </button>
+            <button onclick="filterLettersByCategory('obstacles')" data-cat="obstacles" class="letter-cat-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-white border border-slate-800 light:border-slate-200">
+              <i class="fa-solid fa-triangle-exclamation text-purple-400"></i>
+              <span>عوائق وتعديات ميدانية</span>
+              <span class="count-badge bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded-md text-[10px]">2</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Secondary Filters Row (Year & Doc Type) -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/60 light:border-slate-200 pt-3 text-xs">
+          <!-- Year Filter -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-bold ml-1">سنة الإصدار:</span>
+            <div class="flex gap-1" id="letterYearFilters">
+              <button onclick="filterLettersByYear('all')" data-year="all" class="letter-year-btn active px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-600 text-white">الكل</button>
+              <button onclick="filterLettersByYear('2023')" data-year="2023" class="letter-year-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 border border-slate-800">2023</button>
+              <button onclick="filterLettersByYear('2024')" data-year="2024" class="letter-year-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 border border-slate-800">2024</button>
+              <button onclick="filterLettersByYear('2025')" data-year="2025" class="letter-year-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 border border-slate-800">2025</button>
+              <button onclick="filterLettersByYear('2026')" data-year="2026" class="letter-year-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900/80 light:bg-slate-100 text-slate-300 light:text-slate-700 border border-slate-800">2026</button>
+            </div>
+          </div>
+
+          <!-- Matching Count Indicator -->
+          <div class="text-slate-400 text-xs font-semibold">
+            عدد الخطابات المطابقة: <span id="matchingLettersCount" class="font-black text-amber-400">27</span> من أصل 27 خطاباً
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Container: Cards View -->
+      <div id="lettersCardsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <!-- Container: Table View (Hidden by default) -->
+      <div id="lettersTableContainer" class="hidden glass-card rounded-3xl p-4 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead>
+              <tr class="border-b border-slate-800 light:border-slate-200 text-slate-400 text-[11px] font-bold">
+                <th class="py-3 px-3">#</th>
+                <th class="py-3 px-3">رقم المرجع</th>
+                <th class="py-3 px-3">تاريخ الإصدار</th>
+                <th class="py-3 px-3">قيد / تاريخ الوارد</th>
+                <th class="py-3 px-3">المحور التعاقدي</th>
+                <th class="py-3 px-3">الموضوع والمطالبة</th>
+                <th class="py-3 px-3 text-center">الصفحات</th>
+                <th class="py-3 px-3 text-center">سلاسل الإسناد</th>
+                <th class="py-3 px-3 text-center">المرفقات</th>
+                <th class="py-3 px-3 text-center">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="lettersTableBody" class="divide-y divide-slate-800/60 light:divide-slate-200 text-slate-200 light:text-slate-800">
+              <!-- Rendered via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
   <!-- ========================================================================= -->
@@ -1588,6 +1833,293 @@ html_code = f'''<!DOCTYPE html>
       <div class="mt-4 text-left">
         <button onclick="closeUserManageModal()" class="px-4 py-1.5 bg-slate-800 light:bg-slate-200 text-slate-200 light:text-slate-800 rounded-xl text-xs font-bold">إغلاق</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: LETTER DETAILS MODAL                                             -->
+  <!-- ========================================================================= -->
+  <div id="letterDetailsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-navy-900 dark:bg-navy-900 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-200 rounded-3xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl relative text-right my-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 light:border-slate-200 pb-3 mb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modalLetterCatBadge" class="text-[10px] font-bold px-2.5 py-1 rounded-lg"></span>
+            <span id="modalLetterPagesBadge" class="text-[10px] font-bold px-2 py-1 rounded-lg bg-slate-800 text-slate-300"></span>
+          </div>
+          <h3 id="modalLetterRef" class="text-lg font-black text-white light:text-slate-900 font-mono mt-1"></h3>
+        </div>
+        <button onclick="closeLetterDetailsModal()" class="text-slate-400 hover:text-white p-1 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="space-y-4 text-xs max-h-[70vh] overflow-y-auto pr-1">
+        
+        <!-- Subject Banner -->
+        <div class="bg-slate-950/60 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800/80 light:border-slate-200">
+          <div class="text-[11px] font-bold text-slate-400 mb-1">موضوع الخطاب:</div>
+          <div id="modalLetterSubject" class="text-sm font-bold text-white light:text-slate-900"></div>
+        </div>
+
+        <!-- Meta Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-950/40 light:bg-slate-50 p-3 rounded-2xl border border-slate-800/60 light:border-slate-200">
+          <div>
+            <span class="text-slate-400 font-bold">تاريخ التحرير:</span>
+            <span id="modalLetterDate" class="text-white light:text-slate-900 font-semibold mr-1 font-mono"></span>
+          </div>
+          <div>
+            <span class="text-slate-400 font-bold">تاريخ وقيد الوارد بالهيئة:</span>
+            <span id="modalLetterReceived" class="text-amber-400 light:text-amber-600 font-semibold mr-1"></span>
+          </div>
+          <div>
+            <span class="text-slate-400 font-bold">الجهة الموجه إليها:</span>
+            <span id="modalLetterAddressee" class="text-white light:text-slate-900 font-semibold mr-1"></span>
+          </div>
+          <div>
+            <span class="text-slate-400 font-bold">الموقع عن الشركة:</span>
+            <span id="modalLetterSigner" class="text-white light:text-slate-900 font-semibold mr-1"></span>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="space-y-1.5">
+          <div class="font-bold text-slate-300 light:text-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-lines text-brand-400"></i>
+            <span>ملخص الخطاب والأسانيد التعاقدية:</span>
+          </div>
+          <div id="modalLetterSummary" class="text-slate-300 light:text-slate-700 leading-relaxed bg-slate-950/30 light:bg-slate-50 p-3 rounded-xl border border-slate-800/40"></div>
+        </div>
+
+        <!-- Key Figures -->
+        <div id="modalLetterFiguresWrapper" class="space-y-1.5 hidden">
+          <div class="font-bold text-slate-300 light:text-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-calculator text-emerald-400"></i>
+            <span>المطالبات والأرقام والكميات المنفذة:</span>
+          </div>
+          <div id="modalLetterFigures" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+        </div>
+
+        <!-- Predecessor References Chain -->
+        <div id="modalLetterPredecessorsWrapper" class="space-y-1.5 hidden">
+          <div class="font-bold text-slate-300 light:text-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-right-long text-blue-400"></i>
+            <span>الخطابات السابقة المشار إليها (السوابق المستند عليها):</span>
+          </div>
+          <div id="modalLetterPredecessors" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Successor References Chain -->
+        <div id="modalLetterSuccessorsWrapper" class="space-y-1.5 hidden">
+          <div class="font-bold text-slate-300 light:text-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-left-long text-amber-400"></i>
+            <span>الخطابات اللاحقة التي استشهدت بهذا الخطاب:</span>
+          </div>
+          <div id="modalLetterSuccessors" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Embedded Documents -->
+        <div id="modalLetterEmbeddedWrapper" class="space-y-1.5 hidden">
+          <div class="font-bold text-slate-300 light:text-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-paperclip text-purple-400"></i>
+            <span>الوثائق والمكاتبات المرفقة ضمناً داخل هذا الملف:</span>
+          </div>
+          <div id="modalLetterEmbedded" class="space-y-1.5"></div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between border-t border-slate-800 light:border-slate-200 pt-3 mt-4">
+        <button onclick="closeLetterDetailsModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+          إغلاق النافذة
+        </button>
+        <button id="modalViewPdfBtn" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md shadow-brand-600/20">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>فتح ملف الـ PDF الأصلي</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: SMART LETTER CITATION GENERATOR MODAL                            -->
+  <!-- ========================================================================= -->
+  <div id="letterGeneratorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-navy-900 dark:bg-navy-900 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-200 rounded-3xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl relative text-right my-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 light:border-slate-200 pb-3 mb-4">
+        <div>
+          <h3 class="text-base font-black text-white light:text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+            مساعد صياغة مراجع الخطابات الجديدة (Smart Letter Reference Generator)
+          </h3>
+          <p class="text-[11px] text-slate-400 mt-0.5">
+            اختر موضوع الخطاب وسيقوم النظام بتجميع كافة الخطابات السابقة الواجب ذكرها مع أرقام وتواريخ قيد الوارد وصياغة الديباجة فوراً.
+          </p>
+        </div>
+        <button onclick="closeLetterGeneratorModal()" class="text-slate-400 hover:text-white p-1 text-base">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Generator Body -->
+      <div class="space-y-4 text-xs">
+        
+        <!-- Topic Selector -->
+        <div>
+          <label class="block font-bold text-slate-300 light:text-slate-800 mb-1.5">اختر موضوع الخطاب المزمع إرساله للهيئة:</label>
+          <select id="generatorTopicSelect" onchange="handleGeneratorTopicChange()" class="w-full bg-slate-950 light:bg-slate-50 border border-slate-700 light:border-slate-300 rounded-xl px-3 py-2 text-white light:text-slate-900 font-bold focus:outline-none focus:border-brand-500">
+            <option value="financial">1. مطالبة بصرف مستحقات متأخرة أو فروق أسعار أو أعباء تمويلية</option>
+            <option value="extension">2. طلب مدة إضافية / تمديد زمني للأعمال (قرارات مجلس الوزراء أو أوامر تغيير)</option>
+            <option value="supply">3. طلب توريد بيتومين 60/70 أو تجديد حصة السولار وتشغيل الخلاطات</option>
+            <option value="legal">4. رد قانوني وتعاقدي على قرارات الهيئة / حفظ حقوق الشركة والأعمال المنجزة</option>
+            <option value="obstacles">5. إثبات حالة / توثيق عوائق ميدانية وتعديات على مسار الطريق</option>
+          </select>
+        </div>
+
+        <!-- Auto-selected Previous Letters Checklist -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="font-bold text-slate-300 light:text-slate-800">الخطابات السابقة المقترح الاستناد إليها (قابلة للاختيار):</label>
+            <span class="text-[10px] text-brand-400 font-semibold cursor-pointer hover:underline" onclick="toggleAllGeneratorLetters(true)">تحديد الكل</span>
+          </div>
+          <div id="generatorChecklist" class="max-h-48 overflow-y-auto space-y-1.5 bg-slate-950/60 light:bg-slate-50 p-2.5 rounded-2xl border border-slate-800 light:border-slate-200">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Generated Output Box -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="font-bold text-slate-300 light:text-slate-800 flex items-center gap-1.5">
+              <i class="fa-solid fa-file-pen text-emerald-400"></i>
+              <span>صيغة الديباجة الرسمية الجاهزة للنسخ (Microsoft Word):</span>
+            </label>
+            <button onclick="copyGeneratedDraft()" id="copyDraftBtn" class="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-500/20 transition flex items-center gap-1">
+              <i class="fa-solid fa-copy"></i>
+              <span>نسخ إلى الحافظة</span>
+            </button>
+          </div>
+          <textarea id="generatorOutputText" rows="6" readonly class="w-full bg-slate-950 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-3 text-slate-200 light:text-slate-800 leading-relaxed font-sans text-xs focus:outline-none"></textarea>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between border-t border-slate-800 light:border-slate-200 pt-3 mt-4">
+        <button onclick="closeLetterGeneratorModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+          إغلاق
+        </button>
+        <button onclick="copyGeneratedDraft()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-check"></i>
+          <span>نسخ الديباجة المرجعية</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: EMBEDDED DOCUMENTS DIRECTORY MODAL                               -->
+  <!-- ========================================================================= -->
+  <div id="embeddedDocsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-navy-900 dark:bg-navy-900 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-200 rounded-3xl max-w-4xl w-full p-5 sm:p-6 shadow-2xl relative text-right my-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 light:border-slate-200 pb-3 mb-4">
+        <div>
+          <h3 class="text-base font-black text-white light:text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-paperclip text-purple-400"></i>
+            دليل المراسلات والوثائق المرفقة داخلياً (Sub-Documents Directory)
+          </h3>
+          <p class="text-[11px] text-slate-400 mt-0.5">
+            حصر لكافة الخطابات والمستندات والعقود المدمجة داخل ملفات الـ PDF الكبيرة مع أرقام صفحاتها بدقة
+          </p>
+        </div>
+        <button onclick="closeEmbeddedDocsModal()" class="text-slate-400 hover:text-white p-1 text-base">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Body: Embedded Docs Table -->
+      <div class="max-h-[65vh] overflow-y-auto overflow-x-auto text-xs">
+        <table class="w-full text-right">
+          <thead>
+            <tr class="border-b border-slate-800 light:border-slate-200 text-slate-400 text-[11px] font-bold">
+              <th class="py-2.5 px-3">#</th>
+              <th class="py-2.5 px-3">المستند المرفق</th>
+              <th class="py-2.5 px-3">النوع والمصدر</th>
+              <th class="py-2.5 px-3">التاريخ</th>
+              <th class="py-2.5 px-3">الملف الحاضن</th>
+              <th class="py-2.5 px-3 text-center">الصفحات</th>
+              <th class="py-2.5 px-3 text-center">فتح الملف</th>
+            </tr>
+          </thead>
+          <tbody id="embeddedDocsTableBody" class="divide-y divide-slate-800/60 light:divide-slate-200 text-slate-300 light:text-slate-700">
+            <!-- Rendered via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-end border-t border-slate-800 light:border-slate-200 pt-3 mt-4">
+        <button onclick="closeEmbeddedDocsModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+          إغلاق النافذة
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 4: THREAD EXPLORER MODAL                                            -->
+  <!-- ========================================================================= -->
+  <div id="threadExplorerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-navy-900 dark:bg-navy-900 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-200 rounded-3xl max-w-4xl w-full p-5 sm:p-6 shadow-2xl relative text-right my-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 light:border-slate-200 pb-3 mb-4">
+        <div>
+          <h3 class="text-base font-black text-white light:text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-diagram-project text-blue-400"></i>
+            مستكشف سلاسل الإسناد والترابط التعاقدي (Reference Threads Explorer)
+          </h3>
+          <p class="text-[11px] text-slate-400 mt-0.5">
+            تتبع مسار كل خطاب وسوابقه ولواحقه التعاقدية عبر شجرة العلاقات التبادلية
+          </p>
+        </div>
+        <button onclick="closeThreadExplorerModal()" class="text-slate-400 hover:text-white p-1 text-base">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Thread Explorer Body -->
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-300 light:text-slate-800 mb-1.5">اختر الخطاب لعرض شجرة الترابط وسلسلة الإسناد الخاصة به:</label>
+          <select id="threadLetterSelect" onchange="renderThreadExplorer(this.value)" class="w-full bg-slate-950 light:bg-slate-50 border border-slate-700 light:border-slate-300 rounded-xl px-3 py-2 text-white light:text-slate-900 font-mono font-bold focus:outline-none">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div id="threadVisualContainer" class="bg-slate-950/60 light:bg-slate-50 p-4 rounded-2xl border border-slate-800 light:border-slate-200 space-y-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-end border-t border-slate-800 light:border-slate-200 pt-3 mt-4">
+        <button onclick="closeThreadExplorerModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">
+          إغلاق
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -2138,7 +2670,10 @@ html_code = f'''<!DOCTYPE html>
       document.getElementById('itemSearchInput').addEventListener('input', renderBoqItems);
       document.getElementById('categoryFilterSelect').addEventListener('change', renderBoqItems);
 
-      // 9. Render Charts
+      // 9. Render Letters & Correspondence Module
+      renderLetters();
+
+      // 10. Render Charts
       renderCharts();
     }}
 
@@ -2292,6 +2827,666 @@ html_code = f'''<!DOCTYPE html>
           }}
         }}
       }});
+    }}
+
+
+    // =========================================================================
+    // CORRESPONDENCE & LETTERS MODULE (سجل المراسلات وسلاسل الإسناد)
+    // =========================================================================
+    let currentLettersCategory = 'all';
+    let currentLettersYear = 'all';
+    let currentLettersSearch = '';
+    let currentLettersViewMode = 'cards';
+
+    function getLettersDataset() {{
+      if (projectData && projectData.correspondence && projectData.correspondence.letters) {{
+        return projectData.correspondence.letters;
+      }}
+      return [];
+    }}
+
+    function getEmbeddedRegistry() {{
+      if (projectData && projectData.correspondence && projectData.correspondence.embedded_registry) {{
+        return projectData.correspondence.embedded_registry;
+      }}
+      return [];
+    }}
+
+    function renderLetters() {{
+      const letters = getLettersDataset();
+      const containerCards = document.getElementById('lettersCardsContainer');
+      const tableBody = document.getElementById('lettersTableBody');
+      const matchCountEl = document.getElementById('matchingLettersCount');
+
+      if (!containerCards || !tableBody) return;
+
+      const q = currentLettersSearch.toLowerCase();
+      const filtered = letters.filter(l => {{
+        // Category filter
+        if (currentLettersCategory !== 'all' && l.category !== currentLettersCategory) {{
+          return false;
+        }}
+        // Year filter
+        if (currentLettersYear !== 'all' && l.year !== currentLettersYear) {{
+          return false;
+        }}
+        // Search query
+        if (q) {{
+          const matchRef = (l.ref_code || '').toLowerCase().includes(q);
+          const matchSub = (l.subject || '').toLowerCase().includes(q);
+          const matchSum = (l.summary || '').toLowerCase().includes(q);
+          const matchDate = (l.date || '').toLowerCase().includes(q);
+          const matchRec = l.received_stamp ? ((l.received_stamp.number || '') + ' ' + (l.received_stamp.raw || '')).toLowerCase().includes(q) : false;
+          const matchAddr = (l.addressee || '').toLowerCase().includes(q);
+          const matchSign = (l.signer || '').toLowerCase().includes(q);
+          const matchFigs = (l.key_figures || []).some(f => (f.label + ' ' + f.value).toLowerCase().includes(q));
+          if (!matchRef && !matchSub && !matchSum && !matchDate && !matchRec && !matchAddr && !matchSign && !matchFigs) {{
+            return false;
+          }}
+        }}
+        return true;
+      }});
+
+      if (matchCountEl) matchCountEl.textContent = filtered.length;
+
+      // Category color mapping
+      const catColors = {{
+        financial: {{ bg: 'bg-blue-500/15 text-blue-300 light:text-blue-700 border-blue-500/30', badge: 'bg-blue-600', icon: 'fa-file-invoice-dollar' }},
+        extension: {{ bg: 'bg-emerald-500/15 text-emerald-300 light:text-emerald-700 border-emerald-500/30', badge: 'bg-emerald-600', icon: 'fa-clock-rotate-left' }},
+        supply: {{ bg: 'bg-amber-500/15 text-amber-300 light:text-amber-700 border-amber-500/30', badge: 'bg-amber-600', icon: 'fa-oil-well' }},
+        legal: {{ bg: 'bg-rose-500/15 text-rose-300 light:text-rose-700 border-rose-500/30', badge: 'bg-rose-600', icon: 'fa-scale-balanced' }},
+        obstacles: {{ bg: 'bg-purple-500/15 text-purple-300 light:text-purple-700 border-purple-500/30', badge: 'bg-purple-600', icon: 'fa-triangle-exclamation' }}
+      }};
+
+      // 1. Render Cards View
+      if (filtered.length === 0) {{
+        containerCards.innerHTML = `
+          <div class="col-span-full text-center py-12 glass-card rounded-3xl p-6">
+            <i class="fa-solid fa-folder-open text-4xl text-slate-500 mb-3 block"></i>
+            <h4 class="text-base font-bold text-slate-300 light:text-slate-800">لا توجد مكاتبات مطابقة للبحث أو التصفية الحالية</h4>
+            <p class="text-xs text-slate-400 mt-1">جرّب اختيار محور تعاقدي آخر أو مسح كلمة البحث.</p>
+            <button onclick="clearLetterSearch(); filterLettersByCategory('all'); filterLettersByYear('all');" class="mt-4 px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition">
+              عرض جميع المراسلات (27)
+            </button>
+          </div>
+        `;
+      }} else {{
+        containerCards.innerHTML = filtered.map(l => {{
+          const col = catColors[l.category] || {{ bg: 'bg-slate-700/20 text-slate-300 border-slate-700', badge: 'bg-slate-700', icon: 'fa-envelope' }};
+          const figuresHtml = (l.key_figures || []).slice(0, 2).map(fig => `
+            <div class="bg-slate-950/50 light:bg-slate-100 p-2 rounded-xl border border-slate-800/80 light:border-slate-200">
+              <span class="text-[10px] text-slate-400 block">${{fig.label}}</span>
+              <span class="text-xs font-bold text-white light:text-slate-900">${{fig.value}}</span>
+            </div>
+          `).join('');
+
+          const predsCount = (l.predecessor_refs || []).length;
+          const succsCount = (l.successor_refs || []).length;
+          const embCount = (l.embedded_documents || []).length;
+
+          return `
+            <div class="glass-card stat-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between relative transition duration-300 hover:border-brand-500/40 hover:shadow-xl hover:shadow-brand-500/5 group">
+              
+              <!-- Card Top Meta -->
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg border ${{col.bg}} flex items-center gap-1.5">
+                    <i class="fa-solid ${{col.icon}}"></i>
+                    <span>${{l.category_label}}</span>
+                  </span>
+                  
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-[10px] bg-slate-800 text-slate-300 light:bg-slate-200 light:text-slate-700 font-bold px-2 py-0.5 rounded-md">
+                      ${{l.pages}} ${{l.pages === 1 ? 'صفحة' : 'صفحات'}}
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-mono font-bold bg-slate-950/80 light:bg-slate-200 px-2 py-0.5 rounded-md">
+                      ${{l.year}}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Reference Header -->
+                <div class="flex items-center justify-between bg-slate-950/60 light:bg-slate-100 px-3 py-2 rounded-xl border border-slate-800/80 light:border-slate-200">
+                  <div class="font-mono font-black text-amber-400 light:text-amber-600 text-xs sm:text-sm tracking-wide" title="رقم المرجع الرسمي">
+                    ${{l.ref_code}}
+                  </div>
+                  <button onclick="copyLetterRef('${{l.ref_code}}', this)" title="نسخ المرجع" class="text-slate-400 hover:text-white p-1 text-xs transition">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                </div>
+
+                <!-- Date & Incoming Stamp -->
+                <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-800/60 light:border-slate-200 pb-2">
+                  <span class="flex items-center gap-1">
+                    <i class="fa-regular fa-calendar-check text-brand-400"></i>
+                    <span>تاريخ الإصدار: <b>${{l.date}}</b></span>
+                  </span>
+                  <span class="text-[10px] font-bold text-amber-400 light:text-amber-700 bg-amber-500/10 px-2 py-0.5 rounded-md">
+                    ${{l.received_stamp ? (l.received_stamp.number !== 'مؤشر عليه بالاستلام' && l.received_stamp.number !== 'ختم وارد الهيئة' ? 'وارد ' + l.received_stamp.number : 'وارد الهيئة') : 'مسجل'}}
+                  </span>
+                </div>
+
+                <!-- Subject -->
+                <div>
+                  <h4 class="font-black text-xs sm:text-sm text-white light:text-slate-900 leading-snug group-hover:text-brand-300 transition line-clamp-2">
+                    ${{l.subject}}
+                  </h4>
+                  <p class="text-[11px] text-slate-400 light:text-slate-600 mt-1.5 leading-relaxed line-clamp-3">
+                    ${{l.summary}}
+                  </p>
+                </div>
+
+                <!-- Key Figures -->
+                ${{figuresHtml ? `<div class="grid grid-cols-2 gap-2 pt-1">${{figuresHtml}}</div>` : ''}}
+
+                <!-- Reference Chains & Embedded Badges -->
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  ${{predsCount > 0 ? `
+                    <button onclick="openLetterDetails('${{l.id}}')" class="text-[10px] font-bold bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 light:text-blue-700 border border-blue-500/20 px-2 py-0.5 rounded-md transition flex items-center gap-1">
+                      <i class="fa-solid fa-arrow-right-long"></i>
+                      <span>استند على ${{predsCount}} سوابق</span>
+                    </button>
+                  ` : ''}}
+                  
+                  ${{succsCount > 0 ? `
+                    <button onclick="openLetterDetails('${{l.id}}')" class="text-[10px] font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 light:text-amber-700 border border-amber-500/20 px-2 py-0.5 rounded-md transition flex items-center gap-1">
+                      <i class="fa-solid fa-arrow-left-long"></i>
+                      <span>استشهد به في ${{succsCount}} لاحق</span>
+                    </button>
+                  ` : ''}}
+
+                  ${{embCount > 0 ? `
+                    <button onclick="openLetterDetails('${{l.id}}')" class="text-[10px] font-bold bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 light:text-purple-700 border border-purple-500/20 px-2 py-0.5 rounded-md transition flex items-center gap-1">
+                      <i class="fa-solid fa-paperclip"></i>
+                      <span>يضم ${{embCount}} مرفقات</span>
+                    </button>
+                  ` : ''}}
+                </div>
+              </div>
+
+              <!-- Card Actions -->
+              <div class="flex items-center justify-between border-t border-slate-800/80 light:border-slate-200 pt-3 mt-4">
+                <button onclick="openLetterDetails('${{l.id}}')" class="px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 light:bg-slate-200 light:text-slate-800 font-bold text-xs transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-circle-info text-brand-400"></i>
+                  <span>تفاصيل كاملة</span>
+                </button>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="openThreadExplorerModal('${{l.id}}')" title="شجرة سلاسل الإسناد" class="p-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/20 text-xs transition">
+                    <i class="fa-solid fa-diagram-project"></i>
+                  </button>
+                  <button onclick="viewLetterPdf('${{l.file_name}}')" title="فتح ملف الـ PDF" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-md shadow-rose-600/20">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>PDF</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          `;
+        }}).join('');
+      }}
+
+      // 2. Render Table View
+      if (filtered.length === 0) {{
+        tableBody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-slate-400 font-bold">لا توجد مكاتبات مطابقة للتصفية</td></tr>`;
+      }} else {{
+        tableBody.innerHTML = filtered.map((l, idx) => {{
+          const col = catColors[l.category] || {{ bg: 'bg-slate-700 text-slate-300', icon: 'fa-envelope' }};
+          return `
+            <tr class="hover:bg-slate-800/40 light:hover:bg-slate-100 transition">
+              <td class="py-3 px-3 font-mono font-bold text-slate-400">${{idx + 1}}</td>
+              <td class="py-3 px-3 font-mono font-bold text-amber-400 light:text-amber-600 whitespace-nowrap">
+                ${{l.ref_code}}
+              </td>
+              <td class="py-3 px-3 font-mono whitespace-nowrap">${{l.date}}</td>
+              <td class="py-3 px-3 whitespace-nowrap text-[11px] text-slate-300 light:text-slate-700">
+                ${{l.received_stamp ? l.received_stamp.raw : '-'}}
+              </td>
+              <td class="py-3 px-3 whitespace-nowrap">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md border ${{col.bg}}">
+                  ${{l.category_label}}
+                </span>
+              </td>
+              <td class="py-3 px-3 max-w-xs truncate" title="${{l.subject}}">
+                <span class="font-bold text-white light:text-slate-900">${{l.subject}}</span>
+              </td>
+              <td class="py-3 px-3 text-center font-bold text-slate-400">${{l.pages}}</td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                <span class="text-[10px] bg-blue-500/10 text-blue-300 px-2 py-0.5 rounded font-bold">${{(l.predecessor_refs || []).length}} سابقة</span>
+              </td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                ${{(l.embedded_documents || []).length > 0 ? `
+                  <span class="text-[10px] bg-purple-500/10 text-purple-300 px-2 py-0.5 rounded font-bold">${{l.embedded_documents.length}} وثائق</span>
+                ` : '<span class="text-slate-600">-</span>'}}
+              </td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                <div class="flex items-center justify-center gap-1.5">
+                  <button onclick="openLetterDetails('${{l.id}}')" title="عرض التفاصيل" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-400 text-xs">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button onclick="viewLetterPdf('${{l.file_name}}')" title="فتح PDF" class="p-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs">
+                    <i class="fa-solid fa-file-pdf"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }}).join('');
+      }}
+    }}
+
+    function filterLettersByCategory(cat) {{
+      currentLettersCategory = cat;
+      document.querySelectorAll('#letterCategoryFilters .letter-cat-btn').forEach(btn => {{
+        if (btn.getAttribute('data-cat') === cat) {{
+          btn.classList.add('active', 'bg-brand-600', 'text-white');
+          btn.classList.remove('bg-slate-900/80', 'light:bg-slate-100', 'text-slate-300', 'light:text-slate-700');
+        }} else {{
+          btn.classList.remove('active', 'bg-brand-600', 'text-white');
+          btn.classList.add('bg-slate-900/80', 'light:bg-slate-100', 'text-slate-300', 'light:text-slate-700');
+        }}
+      }});
+      renderLetters();
+    }}
+
+    function filterLettersByYear(year) {{
+      currentLettersYear = year;
+      document.querySelectorAll('#letterYearFilters .letter-year-btn').forEach(btn => {{
+        if (btn.getAttribute('data-year') === year) {{
+          btn.classList.add('active', 'bg-brand-600', 'text-white');
+          btn.classList.remove('bg-slate-900/80', 'light:bg-slate-100', 'text-slate-300', 'light:text-slate-700');
+        }} else {{
+          btn.classList.remove('active', 'bg-brand-600', 'text-white');
+          btn.classList.add('bg-slate-900/80', 'light:bg-slate-100', 'text-slate-300', 'light:text-slate-700');
+        }}
+      }});
+      renderLetters();
+    }}
+
+    function handleLetterSearch(val) {{
+      currentLettersSearch = val || '';
+      const clearBtn = document.getElementById('clearLetterSearchBtn');
+      if (clearBtn) {{
+        if (currentLettersSearch.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }}
+      renderLetters();
+    }}
+
+    function clearLetterSearch() {{
+      const input = document.getElementById('letterSearchInput');
+      if (input) input.value = '';
+      handleLetterSearch('');
+    }}
+
+    function setLettersViewMode(mode) {{
+      currentLettersViewMode = mode;
+      const cardsCont = document.getElementById('lettersCardsContainer');
+      const tableCont = document.getElementById('lettersTableContainer');
+      const cardsBtn = document.getElementById('viewModeCardsBtn');
+      const tableBtn = document.getElementById('viewModeTableBtn');
+
+      if (mode === 'table') {{
+        if (cardsCont) cardsCont.classList.add('hidden');
+        if (tableCont) tableCont.classList.remove('hidden');
+        if (tableBtn) {{ tableBtn.classList.add('bg-brand-600', 'text-white'); tableBtn.classList.remove('text-slate-400'); }}
+        if (cardsBtn) {{ cardsBtn.classList.remove('bg-brand-600', 'text-white'); cardsBtn.classList.add('text-slate-400'); }}
+      }} else {{
+        if (cardsCont) cardsCont.classList.remove('hidden');
+        if (tableCont) tableCont.classList.add('hidden');
+        if (cardsBtn) {{ cardsBtn.classList.add('bg-brand-600', 'text-white'); cardsBtn.classList.remove('text-slate-400'); }}
+        if (tableBtn) {{ tableBtn.classList.remove('bg-brand-600', 'text-white'); tableBtn.classList.add('text-slate-400'); }}
+      }}
+    }}
+
+    function copyLetterRef(ref, btn) {{
+      navigator.clipboard.writeText(ref).then(() => {{
+        if (btn) {{
+          const origHtml = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i>';
+          setTimeout(() => {{ btn.innerHTML = origHtml; }}, 1500);
+        }}
+      }}).catch(() => {{}});
+    }}
+
+    function openLetterDetails(id) {{
+      const letters = getLettersDataset();
+      const letter = letters.find(l => l.id === id);
+      if (!letter) return;
+
+      document.getElementById('modalLetterRef').textContent = letter.ref_code;
+      document.getElementById('modalLetterSubject').textContent = letter.subject;
+      document.getElementById('modalLetterDate').textContent = letter.date;
+      document.getElementById('modalLetterReceived').textContent = letter.received_stamp ? letter.received_stamp.raw : 'مسجل بالهيئة';
+      document.getElementById('modalLetterAddressee').textContent = letter.addressee;
+      document.getElementById('modalLetterSigner').textContent = letter.signer;
+      document.getElementById('modalLetterSummary').textContent = letter.summary;
+      document.getElementById('modalLetterCatBadge').textContent = letter.category_label;
+      document.getElementById('modalLetterPagesBadge').textContent = `${{letter.pages}} صفحة`;
+
+      // Key figures
+      const figWrapper = document.getElementById('modalLetterFiguresWrapper');
+      const figContainer = document.getElementById('modalLetterFigures');
+      if (letter.key_figures && letter.key_figures.length > 0) {{
+        figWrapper.classList.remove('hidden');
+        figContainer.innerHTML = letter.key_figures.map(f => `
+          <div class="bg-slate-900/80 light:bg-slate-100 p-2.5 rounded-xl border border-slate-800 light:border-slate-300">
+            <span class="text-slate-400 text-[11px] block">${{f.label}}</span>
+            <span class="text-white light:text-slate-900 font-bold text-xs mt-0.5 block">${{f.value}}</span>
+          </div>
+        `).join('');
+      }} else {{
+        figWrapper.classList.add('hidden');
+      }}
+
+      // Predecessors
+      const predWrapper = document.getElementById('modalLetterPredecessorsWrapper');
+      const predContainer = document.getElementById('modalLetterPredecessors');
+      if (letter.predecessor_refs && letter.predecessor_refs.length > 0) {{
+        predWrapper.classList.remove('hidden');
+        predContainer.innerHTML = letter.predecessor_refs.map(ref => `
+          <span class="bg-blue-500/10 text-blue-300 light:text-blue-700 border border-blue-500/20 px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold">
+            ${{ref}}
+          </span>
+        `).join('');
+      }} else {{
+        predWrapper.classList.add('hidden');
+      }}
+
+      // Successors
+      const succWrapper = document.getElementById('modalLetterSuccessorsWrapper');
+      const succContainer = document.getElementById('modalLetterSuccessors');
+      if (letter.successor_refs && letter.successor_refs.length > 0) {{
+        succWrapper.classList.remove('hidden');
+        succContainer.innerHTML = letter.successor_refs.map(ref => `
+          <span class="bg-amber-500/10 text-amber-300 light:text-amber-700 border border-amber-500/20 px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold">
+            ${{ref}}
+          </span>
+        `).join('');
+      }} else {{
+        succWrapper.classList.add('hidden');
+      }}
+
+      // Embedded Documents
+      const embWrapper = document.getElementById('modalLetterEmbeddedWrapper');
+      const embContainer = document.getElementById('modalLetterEmbedded');
+      if (letter.embedded_documents && letter.embedded_documents.length > 0) {{
+        embWrapper.classList.remove('hidden');
+        embContainer.innerHTML = letter.embedded_documents.map(ed => `
+          <div class="bg-purple-500/5 light:bg-purple-50 p-2.5 rounded-xl border border-purple-500/20 flex items-start justify-between gap-2">
+            <div>
+              <span class="text-[10px] font-bold text-purple-400 bg-purple-500/20 px-2 py-0.5 rounded">${{ed.type || 'وثيقة مدمجة'}}</span>
+              <span class="font-bold text-white light:text-slate-900 mr-1.5 text-xs">${{ed.ref || ed.subject}}</span>
+              <div class="text-[11px] text-slate-400 mt-1">${{ed.subject}}</div>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-slate-800 text-slate-300 px-2 py-1 rounded whitespace-nowrap">
+              صـ ${{ed.pages}}
+            </span>
+          </div>
+        `).join('');
+      }} else {{
+        embWrapper.classList.add('hidden');
+      }}
+
+      // PDF button
+      const pdfBtn = document.getElementById('modalViewPdfBtn');
+      pdfBtn.onclick = () => viewLetterPdf(letter.file_name);
+
+      const modal = document.getElementById('letterDetailsModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }}
+
+    function closeLetterDetailsModal() {{
+      const modal = document.getElementById('letterDetailsModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }}
+
+    // =========================================================================
+    // SMART LETTER REFERENCE GENERATOR
+    // =========================================================================
+    function openLetterGeneratorModal() {{
+      handleGeneratorTopicChange();
+      const modal = document.getElementById('letterGeneratorModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }}
+
+    function closeLetterGeneratorModal() {{
+      const modal = document.getElementById('letterGeneratorModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }}
+
+    function handleGeneratorTopicChange() {{
+      const topic = document.getElementById('generatorTopicSelect').value;
+      const letters = getLettersDataset();
+      const checklistContainer = document.getElementById('generatorChecklist');
+
+      // Sort letters chronologically
+      const sorted = [...letters].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // Filter relevant letters by topic
+      const topicKeywords = {{
+        financial: ['financial', '35-23', '42-23', '45-23', '51-23', '02-24', '15-24', '33-24', '39-25', '53-25', '57-25', '63-25', '02-26', '15-26', '47-26'],
+        extension: ['extension', '30-26', '33-26', '58-25', '23-25', '02-24', '47-26'],
+        supply: ['supply', '22-24', '31-26', '44-26', '45-26', '58-25', '45-23'],
+        legal: ['legal', '49-26', '52-26', '47-26', '26-24', '27-26', '29-26'],
+        obstacles: ['obstacles', '27-26', '29-26', '33-26', '47-26']
+      }};
+
+      const relevantKeys = topicKeywords[topic] || [];
+
+      checklistContainer.innerHTML = sorted.map(l => {{
+        const isDefaultChecked = l.category === topic || relevantKeys.includes(l.id);
+        return `
+          <label class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-slate-800/40 light:hover:bg-slate-200 cursor-pointer text-xs">
+            <input type="checkbox" value="${{l.id}}" ${{isDefaultChecked ? 'checked' : ''}} onchange="generateLetterDraft()" class="generator-letter-checkbox mt-0.5 rounded border-slate-700 text-brand-600 focus:ring-0">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-amber-400 light:text-amber-600">${{l.ref_code}}</span>
+                <span class="text-slate-400 font-mono">(${{l.date}})</span>
+                <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.2 rounded">${{l.category_label}}</span>
+              </div>
+              <div class="text-slate-300 light:text-slate-700 text-[11px] truncate">${{l.subject}}</div>
+            </div>
+          </label>
+        `;
+      }}).join('');
+
+      generateLetterDraft();
+    }}
+
+    function toggleAllGeneratorLetters(checked) {{
+      document.querySelectorAll('.generator-letter-checkbox').forEach(cb => cb.checked = checked);
+      generateLetterDraft();
+    }}
+
+    function generateLetterDraft() {{
+      const topic = document.getElementById('generatorTopicSelect').value;
+      const letters = getLettersDataset();
+      const checkedBoxes = Array.from(document.querySelectorAll('.generator-letter-checkbox:checked'));
+      const checkedIds = checkedBoxes.map(cb => cb.value);
+
+      const selectedLetters = letters.filter(l => checkedIds.includes(l.id))
+                                     .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const topicTitles = {{
+        financial: "المستحقات المالية المتأخرة وفروق الأسعار والتعويضات",
+        extension: "طلب تمديد مدة تنفيذ المشروع طبقاً لقرار مجلس الوزراء والأوامر التغييرية",
+        supply: "توفير وتوريد حصص البيتومين 60/70 والسولار اللازمة لاستمرار تشغيل المشروع",
+        legal: "الردود القانونية والتعاقدية وحفظ حقوق الشركة بشأن تنفيذ الأعمال",
+        obstacles: "إثبات الحالة وتوثيق العوائق الميدانية والتعديات الواقعة بنطاق أعمال المشروع"
+      }};
+
+      let draft = `السيد اللواء المهندس / رئيس مجلس إدارة الهيئة العامة للطرق والكباري\nتحية طيبة وبعد ،،،\n\n`;
+      draft += `الموضوع: ${{topicTitles[topic] || 'مستحقات وأعمال المشروع'}}\n`;
+      draft += `مشروع تنفيذ أعمال تطوير ورفع كفاءة طريق الصعيد الصحراوي الغربي (ديروط - أسيوط 65 كم)\n`;
+      draft += `عقد مقاولة رقم (426 / 2022 / 2023) المؤرخ 27/09/2022\n\n`;
+      draft += `بالإشارة إلى الموضوع أعلاه، وإلحاقاً لكافة مكاتباتنا ومراسلاتنا السابقة بشأن الموقف التنفيذي والتعاقدي للمشروع، وبالإشارة إلى خطاباتنا السابقة الموجهة لسيادتكم أرقام:\n`;
+
+      if (selectedLetters.length === 0) {{
+        draft += `(لم يتم تحديد خطابات سابقة)\n`;
+      }} else {{
+        selectedLetters.forEach((l, idx) => {{
+          const recText = l.received_stamp ? ` (المقيد وارد هيئتكم الموقرة بتاريخ ${{l.received_stamp.date}})` : '';
+          draft += `${{idx + 1}}. خطابنا مرجع رقم (${{l.ref_code}}) المؤرخ في ${{l.date}}${{recText}} بخصوص (${{l.subject}}).\n`;
+        }});
+      }}
+
+      draft += `\nنرجو من سيادتكم التكرم بالإحاطة واتخاذ ما يلزم نحو التوجيه بسرعة فحص وتلبية الطلبات الواردة بعاليه حفاظاً على حسن سير وانتظام العمل بالمشروع وتجنباً لمزيد من الأضرار التعاقدية والمالية.\n\nوتفضلوا بقبول فائق الاحترام والتقدير ،،،\nشركة إيماك للمقاولات`;
+
+      document.getElementById('generatorOutputText').value = draft;
+    }}
+
+    function copyGeneratedDraft() {{
+      const text = document.getElementById('generatorOutputText').value;
+      navigator.clipboard.writeText(text).then(() => {{
+        const btn = document.getElementById('copyDraftBtn');
+        if (btn) {{
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> <span>تم النسخ بنجاح!</span>';
+          setTimeout(() => {{ btn.innerHTML = orig; }}, 2000);
+        }}
+      }}).catch(() => {{}});
+    }}
+
+    // =========================================================================
+    // EMBEDDED DOCUMENTS DIRECTORY MODAL
+    // =========================================================================
+    function openEmbeddedDocsModal() {{
+      const reg = getEmbeddedRegistry();
+      const tbody = document.getElementById('embeddedDocsTableBody');
+      if (tbody) {{
+        tbody.innerHTML = reg.map((d, idx) => `
+          <tr class="hover:bg-slate-800/40 light:hover:bg-slate-100 transition">
+            <td class="py-2.5 px-3 font-mono font-bold text-slate-400">${{idx + 1}}</td>
+            <td class="py-2.5 px-3">
+              <span class="font-bold text-white light:text-slate-900 block text-xs">${{d.ref || d.subject}}</span>
+              <span class="text-[11px] text-slate-400 block">${{d.subject}}</span>
+            </td>
+            <td class="py-2.5 px-3 whitespace-nowrap">
+              <span class="text-[10px] font-bold bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">${{d.type || 'وثيقة مدمجة'}}</span>
+            </td>
+            <td class="py-2.5 px-3 font-mono whitespace-nowrap">${{d.date || '-'}}</td>
+            <td class="py-2.5 px-3 font-mono text-[11px] text-amber-400">${{d.host_ref}}</td>
+            <td class="py-2.5 px-3 text-center font-bold text-slate-300 font-mono whitespace-nowrap">صـ ${{d.pages}}</td>
+            <td class="py-2.5 px-3 text-center whitespace-nowrap">
+              <button onclick="viewLetterPdf('${{d.host_file}}')" class="p-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs" title="فتح الملف الحاضن">
+                <i class="fa-solid fa-file-pdf"></i>
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }}
+
+      const modal = document.getElementById('embeddedDocsModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }}
+
+    function closeEmbeddedDocsModal() {{
+      const modal = document.getElementById('embeddedDocsModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }}
+
+    // =========================================================================
+    // THREAD EXPLORER MODAL
+    // =========================================================================
+    function openThreadExplorerModal(selectedId) {{
+      const letters = getLettersDataset();
+      const select = document.getElementById('threadLetterSelect');
+      if (select) {{
+        select.innerHTML = letters.map(l => `
+          <option value="${{l.id}}" ${{selectedId && selectedId === l.id ? 'selected' : (l.id === '47-26' ? 'selected' : '')}}>
+            ${{l.ref_code}} - ${{l.subject}} (${{l.date}})
+          </option>
+        `).join('');
+      }}
+
+      renderThreadExplorer(selectedId || '47-26');
+
+      const modal = document.getElementById('threadExplorerModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }}
+
+    function closeThreadExplorerModal() {{
+      const modal = document.getElementById('threadExplorerModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }}
+
+    function renderThreadExplorer(letterId) {{
+      const letters = getLettersDataset();
+      const current = letters.find(l => l.id === letterId);
+      const container = document.getElementById('threadVisualContainer');
+      if (!current || !container) return;
+
+      const predecessors = letters.filter(l => (current.predecessor_refs || []).some(ref => ref.includes(l.id)));
+      const successors = letters.filter(l => (current.successor_refs || []).some(ref => ref.includes(l.id)));
+
+      container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+          
+          <!-- Column 1: Predecessors -->
+          <div class="space-y-2 bg-slate-900/60 light:bg-slate-100 p-3 rounded-2xl border border-slate-800">
+            <div class="font-bold text-xs text-blue-400 flex items-center justify-between border-b border-slate-800 pb-2">
+              <span>⬅️ الخطابات السابقة المستند عليها (${{predecessors.length}})</span>
+            </div>
+            <div class="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+              ${{predecessors.length === 0 ? '<div class="text-[11px] text-slate-500 py-3 text-center">لا توجد سوابق مسجلة بهذا الخطاب</div>' : predecessors.map(p => `
+                <div onclick="renderThreadExplorer('${{p.id}}')" class="p-2 rounded-xl bg-slate-950/80 light:bg-white border border-slate-800 hover:border-brand-500 cursor-pointer transition">
+                  <div class="font-mono font-bold text-amber-400 text-xs">${{p.ref_code}}</div>
+                  <div class="text-[10px] text-slate-400 mt-0.5">${{p.date}}</div>
+                  <div class="text-[11px] text-slate-300 light:text-slate-700 truncate mt-1">${{p.subject}}</div>
+                </div>
+              `).join('')}}
+            </div>
+          </div>
+
+          <!-- Column 2: Current Focus Letter -->
+          <div class="space-y-2 bg-brand-500/10 light:bg-brand-50 p-4 rounded-2xl border-2 border-brand-500 shadow-xl">
+            <div class="text-center font-bold text-xs text-brand-300 light:text-brand-800 border-b border-brand-500/30 pb-2">
+              ⭐ الخطاب النشط حالياً في السلسلة
+            </div>
+            <div class="space-y-2 text-right">
+              <div class="font-mono font-black text-amber-400 light:text-amber-600 text-sm">${{current.ref_code}}</div>
+              <div class="text-xs text-slate-400">تاريخ الإصدار: <b class="text-white light:text-slate-900">${{current.date}}</b></div>
+              <div class="text-xs font-bold text-white light:text-slate-900 leading-snug">${{current.subject}}</div>
+              <div class="text-[11px] text-slate-300 light:text-slate-700 leading-relaxed bg-slate-950/40 light:bg-white p-2.5 rounded-xl border border-slate-800/60">${{current.summary}}</div>
+              <button onclick="openLetterDetails('${{current.id}}')" class="w-full py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold text-xs transition">
+                عرض كامل تفاصيل الخطاب
+              </button>
+            </div>
+          </div>
+
+          <!-- Column 3: Successors -->
+          <div class="space-y-2 bg-slate-900/60 light:bg-slate-100 p-3 rounded-2xl border border-slate-800">
+            <div class="font-bold text-xs text-amber-400 flex items-center justify-between border-b border-slate-800 pb-2">
+              <span>➡️ الخطابات اللاحقة المستشهدة به (${{successors.length}})</span>
+            </div>
+            <div class="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+              ${{successors.length === 0 ? '<div class="text-[11px] text-slate-500 py-3 text-center">لم يُذكر في خطابات لاحقة حتى تاريخه</div>' : successors.map(s => `
+                <div onclick="renderThreadExplorer('${{s.id}}')" class="p-2 rounded-xl bg-slate-950/80 light:bg-white border border-slate-800 hover:border-brand-500 cursor-pointer transition">
+                  <div class="font-mono font-bold text-amber-400 text-xs">${{s.ref_code}}</div>
+                  <div class="text-[10px] text-slate-400 mt-0.5">${{s.date}}</div>
+                  <div class="text-[11px] text-slate-300 light:text-slate-700 truncate mt-1">${{s.subject}}</div>
+                </div>
+              `).join('')}}
+            </div>
+          </div>
+
+        </div>
+      `;
+    }}
+
+    function viewLetterPdf(fileName) {{
+      if (!fileName) return;
+      const pdfPath = '../المراسلات/' + encodeURIComponent(fileName);
+      window.open(pdfPath, '_blank');
     }}
 
     // =========================================================================

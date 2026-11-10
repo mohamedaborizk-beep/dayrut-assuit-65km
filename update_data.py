@@ -401,6 +401,15 @@ full_dataset = {
     ]
 }
 
+# Attach letters & correspondence dataset if available
+letters_json_path = os.path.join(base_dir, "app", "letters_data.json")
+if os.path.exists(letters_json_path):
+    try:
+        with open(letters_json_path, "r", encoding="utf-8") as lf:
+            full_dataset["correspondence"] = json.load(lf)
+    except Exception as e:
+        print(f"Warning: Failed to load letters_data.json: {e}")
+
 out_file = os.path.join(base_dir, "app", "project_data.json")
 with open(out_file, "w", encoding="utf-8") as f:
     json.dump(full_dataset, f, ensure_ascii=False, indent=2)
